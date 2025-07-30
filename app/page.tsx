@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { Event } from "@/types/event"
 
 const subunitData = [
   {
@@ -468,7 +469,6 @@ export default function HomePage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {keyGoals.map((goal, index) => {
-              console.log(`Rendering goal ${index}:`, goal.title, goal.description)
               return (
                 <div
                   key={index}
@@ -617,6 +617,20 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Recent Events Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 animate-on-scroll">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <span className="text-sky-500">RECENT EVENTS</span>
+            </h2>
+            <h3 className="text-2xl font-semibold text-gray-700">Latest Activities & Achievements</h3>
+          </div>
+          
+          <RecentEvents />
+        </div>
+      </section>
+
       {/* Join Us Section */}
       <section className="py-20 bg-sky-50">
         <div className="container mx-auto px-4">
@@ -687,6 +701,100 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+    </div>
+  )
+}
+
+// Recent Events Component
+function RecentEvents() {
+  const [events, setEvents] = useState<Event[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchRecentEvents = async () => {
+      try {
+        const response = await fetch('/api/events')
+        const data = await response.json()
+        
+        if (data.success) {
+          // Get only the 3 most recent events
+          const recentEvents = data.data.slice(0, 3)
+          setEvents(recentEvents)
+        }
+      } catch (error) {
+        console.error('Error fetching recent events:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchRecentEvents()
+  }, [])
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    })
+  }
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-8">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-sky-500 mx-auto"></div>
+      </div>
+    )
+  }
+
+  if (events.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-gray-500">No recent events to display.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className="grid md:grid-cols-3 gap-8">
+        {events.map((event) => (
+          <div
+            key={event._id}
+            className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+          >
+            <div className="relative overflow-hidden bg-gray-50">
+              <Image
+                src={event.images && event.images.length > 0 ? event.images[0] : "/placeholder.svg"}
+                alt={event.title}
+                width={400}
+                height={250}
+                className="w-full h-auto max-h-48 object-contain group-hover:scale-105 transition-transform duration-300"
+                unoptimized={event.images && event.images.length > 0 && event.images[0].startsWith('data:')}
+              />
+              <div className="absolute inset-0 bg-sky-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-sky-500 transition-colors duration-200">
+                {event.title}
+              </h3>
+              <p className="text-gray-600 text-sm mb-3 line-clamp-2">{event.description}</p>
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <span>{formatDate(event.date)}</span>
+                <span>{event.attendees} attendees</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div className="text-center mt-8">
+        <Button asChild className="bg-sky-500 hover:bg-sky-600 text-white">
+          <Link href="/events">
+            View All Events →
+          </Link>
+        </Button>
+      </div>
     </div>
   )
 }
