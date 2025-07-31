@@ -4,7 +4,7 @@ import { Event, CreateEventRequest, ApiResponse } from '@/types/event'
 import { verifyToken } from '@/lib/auth'
 
 // Configure maximum payload size for events (reduced since images are now compressed)
-const MAX_PAYLOAD_SIZE = 25 * 1024 * 1024 // 25MB in bytes
+const MAX_PAYLOAD_SIZE = 15 * 1024 * 1024 // 15MB in bytes
 
 // GET /api/events - Get all events
 export async function GET() {

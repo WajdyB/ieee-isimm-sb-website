@@ -46,12 +46,12 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
 - Can be extended with Cloudinary, AWS S3, or Firebase Storage
 
 ## Current Limits
-- **Per file**: 10MB (after compression)
-- **Total upload**: 50MB (after compression)
-- **Event creation**: 25MB total payload (after compression)
+- **Per file**: 5MB (after compression)
+- **Total upload**: 25MB (after compression)
+- **Event creation**: 15MB total payload (after compression)
 - **Images per event**: 20 maximum
 - **Supported formats**: JPEG, JPG, PNG, GIF, WebP
-- **Compression**: Automatic client-side compression for files > 1MB
+- **Compression**: Automatic client-side compression to 1200x800px with 60% quality
 
 ## Deployment Steps
 

@@ -9,10 +9,10 @@ interface CompressionOptions {
 }
 
 const defaultOptions: CompressionOptions = {
-  maxWidth: 1920,
-  maxHeight: 1080,
-  quality: 0.8,
-  maxFileSize: 5 * 1024 * 1024 // 5MB
+  maxWidth: 1200, // Reduced from 1920
+  maxHeight: 800,  // Reduced from 1080
+  quality: 0.6,    // Reduced from 0.8
+  maxFileSize: 2 * 1024 * 1024 // 2MB - more aggressive limit
 }
 
 export async function compressImage(
@@ -104,8 +104,8 @@ export async function compressImages(
   
   for (const file of files) {
     try {
-      // Only compress if it's an image and larger than 1MB
-      if (file.type.startsWith('image/') && file.size > 1024 * 1024) {
+      // Compress all images, not just those > 1MB
+      if (file.type.startsWith('image/')) {
         const compressedFile = await compressImage(file, options)
         compressedFiles.push(compressedFile)
         console.log(`Compressed ${file.name}: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`)

@@ -114,18 +114,18 @@ export default function AdminPage() {
       const originalSize = getTotalFileSize(fileArray)
       console.log(`Original total size: ${formatFileSize(originalSize)}`)
       
-      // Compress images before upload
+      // Compress images before upload with more aggressive settings
       const compressedFiles = await compressImages(fileArray, {
-        maxWidth: 1920,
-        maxHeight: 1080,
-        quality: 0.8,
-        maxFileSize: 5 * 1024 * 1024 // 5MB per file
+        maxWidth: 1200,
+        maxHeight: 800,
+        quality: 0.6,
+        maxFileSize: 2 * 1024 * 1024 // 2MB per file
       })
       
       // Check if any files are still too large after compression
-      const oversizedFiles = compressedFiles.filter(file => file.size > 10 * 1024 * 1024)
+      const oversizedFiles = compressedFiles.filter(file => file.size > 5 * 1024 * 1024)
       if (oversizedFiles.length > 0) {
-        setError(`Some images are still too large after compression: ${oversizedFiles.map(f => f.name).join(', ')}`)
+        setError(`Some images are still too large after compression: ${oversizedFiles.map(f => f.name).join(', ')}. Please try with fewer images or smaller files.`)
         return
       }
       
@@ -151,7 +151,18 @@ export default function AdminPage() {
         body: formData,
       })
 
-      const data = await response.json()
+      let data
+      try {
+        data = await response.json()
+      } catch (parseError) {
+        console.error('Failed to parse response:', parseError)
+        if (response.status === 413) {
+          setError('Files are too large even after compression. Please try with fewer or smaller images.')
+        } else {
+          setError('Upload failed. Please try again.')
+        }
+        return
+      }
 
       if (data.success) {
         setUploadedImages(prev => [...prev, ...data.data])
@@ -161,7 +172,11 @@ export default function AdminPage() {
       }
     } catch (error) {
       console.error('Upload error:', error)
-      setError('Upload failed. Please try again.')
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        setError('Network error. Please check your connection and try again.')
+      } else {
+        setError('Upload failed. Please try again.')
+      }
     } finally {
       setIsUploading(false)
     }
@@ -496,7 +511,10 @@ export default function AdminPage() {
                       Upload multiple images for your event gallery (optional)
                     </p>
                     <p className="text-xs text-gray-400">
-                      Large images will be automatically compressed to ensure successful upload
+                      Images will be automatically compressed to 1200x800px with 60% quality for optimal upload
+                    </p>
+                    <p className="text-xs text-orange-500">
+                      💡 Tip: For best results, upload 5-10 images at a time
                     </p>
                   </div>
                 </div>
