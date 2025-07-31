@@ -17,14 +17,14 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
 - Added experimental configurations for better performance
 
 ### 3. Enhanced Upload API (app/api/upload/route.ts)
-- Added file size validation (50MB per file, 100MB total)
+- Added file size validation (10MB per file, 50MB total after compression)
 - Better error handling and logging
 - Support for multiple image formats (JPEG, PNG, GIF, WebP)
 - Graceful handling of individual file failures
 - CORS support with OPTIONS method
 
 ### 4. Enhanced Events API (app/api/events/route.ts)
-- Added payload size validation (50MB total)
+- Added payload size validation (25MB total after compression)
 - Better error handling for large image arrays
 - Image count and size estimation
 - CORS support with OPTIONS method
@@ -34,16 +34,24 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
 - Limits to 20 images per event to prevent issues
 - Optimized for handling multiple images
 
-### 6. Alternative Cloud Storage API (app/api/upload-cloud/route.ts)
+### 6. Client-Side Image Compression (lib/imageCompression.ts)
+- Automatic image compression before upload
+- Reduces file sizes by up to 80% while maintaining quality
+- Supports multiple image formats
+- Configurable compression settings
+- Prevents 413 errors with large images
+
+### 7. Alternative Cloud Storage API (app/api/upload-cloud/route.ts)
 - Template for future cloud storage integration
 - Can be extended with Cloudinary, AWS S3, or Firebase Storage
 
 ## Current Limits
-- **Per file**: 50MB
-- **Total upload**: 100MB
-- **Event creation**: 50MB total payload
+- **Per file**: 10MB (after compression)
+- **Total upload**: 50MB (after compression)
+- **Event creation**: 25MB total payload (after compression)
 - **Images per event**: 20 maximum
 - **Supported formats**: JPEG, JPG, PNG, GIF, WebP
+- **Compression**: Automatic client-side compression for files > 1MB
 
 ## Deployment Steps
 

@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 import { ApiResponse } from '@/types/event'
 
-// Configure maximum file size (50MB per file)
-const MAX_FILE_SIZE = 50 * 1024 * 1024 // 50MB in bytes
-const MAX_TOTAL_SIZE = 100 * 1024 * 1024 // 100MB total limit
+// Configure maximum file size (10MB per file after compression)
+const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB in bytes
+const MAX_TOTAL_SIZE = 50 * 1024 * 1024 // 50MB total limit
 
 export async function POST(request: NextRequest) {
   try {

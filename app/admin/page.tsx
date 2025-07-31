@@ -7,9 +7,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Plus, Trash2, Upload, Eye, EyeOff, LogOut, AlertCircle } from "lucide-react"
+import { Plus, Trash2, Upload, Eye, EyeOff, LogOut, AlertCircle, Compress } from "lucide-react"
 import Image from "next/image"
 import { Event } from "@/types/event"
+import { compressImages, formatFileSize, getTotalFileSize } from "@/lib/imageCompression"
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -103,9 +104,42 @@ export default function AdminPage() {
     if (!files || files.length === 0) return
 
     setIsUploading(true)
+    setError("")
+    
     try {
+      // Convert FileList to Array
+      const fileArray = Array.from(files)
+      
+      // Show compression info
+      const originalSize = getTotalFileSize(fileArray)
+      console.log(`Original total size: ${formatFileSize(originalSize)}`)
+      
+      // Compress images before upload
+      const compressedFiles = await compressImages(fileArray, {
+        maxWidth: 1920,
+        maxHeight: 1080,
+        quality: 0.8,
+        maxFileSize: 5 * 1024 * 1024 // 5MB per file
+      })
+      
+      // Check if any files are still too large after compression
+      const oversizedFiles = compressedFiles.filter(file => file.size > 10 * 1024 * 1024)
+      if (oversizedFiles.length > 0) {
+        setError(`Some images are still too large after compression: ${oversizedFiles.map(f => f.name).join(', ')}`)
+        return
+      }
+      
+      const compressedSize = getTotalFileSize(compressedFiles)
+      console.log(`Compressed total size: ${formatFileSize(compressedSize)}`)
+      
+      // Show compression results
+      if (originalSize > compressedSize) {
+        const saved = ((originalSize - compressedSize) / originalSize * 100).toFixed(1)
+        console.log(`Saved ${saved}% in file size`)
+      }
+      
       const formData = new FormData()
-      Array.from(files).forEach(file => {
+      compressedFiles.forEach(file => {
         formData.append('files', file)
       })
 
@@ -121,10 +155,12 @@ export default function AdminPage() {
 
       if (data.success) {
         setUploadedImages(prev => [...prev, ...data.data])
+        setError("") // Clear any previous errors
       } else {
         setError(data.message || 'Upload failed')
       }
     } catch (error) {
+      console.error('Upload error:', error)
       setError('Upload failed. Please try again.')
     } finally {
       setIsUploading(false)
@@ -436,16 +472,33 @@ export default function AdminPage() {
                       className="flex-1"
                       disabled={isUploading}
                     />
-                    <Upload className={`h-5 w-5 ${isUploading ? 'text-gray-400' : 'text-gray-500'}`} />
+                    {isUploading ? (
+                      <Compress className="h-5 w-5 text-blue-500 animate-pulse" />
+                    ) : (
+                      <Upload className="h-5 w-5 text-gray-500" />
+                    )}
                   </div>
                   
                   {isUploading && (
-                    <p className="text-sm text-blue-600">Uploading images...</p>
+                    <div className="space-y-2">
+                      <p className="text-sm text-blue-600 flex items-center">
+                        <Compress className="h-4 w-4 mr-2" />
+                        Compressing and uploading images...
+                      </p>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-600 h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                      </div>
+                    </div>
                   )}
                   
-                  <p className="text-sm text-gray-500">
-                    Upload multiple images for your event gallery (optional)
-                  </p>
+                  <div className="space-y-1">
+                    <p className="text-sm text-gray-500">
+                      Upload multiple images for your event gallery (optional)
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      Large images will be automatically compressed to ensure successful upload
+                    </p>
+                  </div>
                 </div>
                 
                 <Button 
