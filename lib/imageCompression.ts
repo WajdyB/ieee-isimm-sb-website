@@ -22,77 +22,99 @@ export async function compressImage(
   const opts = { ...defaultOptions, ...options }
   
   return new Promise((resolve, reject) => {
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d')
-    const img = new Image()
-    
-    img.onload = () => {
-      // Calculate new dimensions while maintaining aspect ratio
-      let { width, height } = img
-      const maxWidth = opts.maxWidth!
-      const maxHeight = opts.maxHeight!
+    try {
+      const canvas = document.createElement('canvas')
+      const ctx = canvas.getContext('2d')
       
-      if (width > height) {
-        if (width > maxWidth) {
-          height = (height * maxWidth) / width
-          width = maxWidth
-        }
-      } else {
-        if (height > maxHeight) {
-          width = (width * maxHeight) / height
-          height = maxHeight
-        }
+      if (!ctx) {
+        reject(new Error('Failed to get canvas context'))
+        return
       }
       
-      // Set canvas dimensions
-      canvas.width = width
-      canvas.height = height
+      const img = new Image()
       
-      // Draw and compress image
-      ctx!.drawImage(img, 0, 0, width, height)
-      
-      // Convert to blob with quality setting
-      canvas.toBlob(
-        (blob) => {
-          if (!blob) {
-            reject(new Error('Failed to compress image'))
-            return
+      img.onload = () => {
+        try {
+          // Calculate new dimensions while maintaining aspect ratio
+          let { width, height } = img
+          const maxWidth = opts.maxWidth!
+          const maxHeight = opts.maxHeight!
+          
+          if (width > height) {
+            if (width > maxWidth) {
+              height = (height * maxWidth) / width
+              width = maxWidth
+            }
+          } else {
+            if (height > maxHeight) {
+              width = (width * maxHeight) / height
+              height = maxHeight
+            }
           }
           
-          // If still too large, compress further
-          if (blob.size > opts.maxFileSize!) {
-            const furtherCompressedQuality = Math.max(0.1, opts.quality! * (opts.maxFileSize! / blob.size))
-            canvas.toBlob(
-              (finalBlob) => {
-                if (!finalBlob) {
-                  reject(new Error('Failed to compress image further'))
+          // Set canvas dimensions
+          canvas.width = width
+          canvas.height = height
+          
+          // Draw and compress image
+          ctx.drawImage(img, 0, 0, width, height)
+          
+          // Convert to blob with quality setting
+          canvas.toBlob(
+            (blob) => {
+              try {
+                if (!blob) {
+                  reject(new Error('Failed to compress image'))
                   return
                 }
                 
-                const compressedFile = new File([finalBlob], file.name, {
-                  type: file.type,
-                  lastModified: Date.now()
-                })
-                resolve(compressedFile)
-              },
-              file.type,
-              furtherCompressedQuality
-            )
-          } else {
-            const compressedFile = new File([blob], file.name, {
-              type: file.type,
-              lastModified: Date.now()
-            })
-            resolve(compressedFile)
-          }
-        },
-        file.type,
-        opts.quality
-      )
+                // If still too large, compress further
+                if (blob.size > opts.maxFileSize!) {
+                  const furtherCompressedQuality = Math.max(0.1, opts.quality! * (opts.maxFileSize! / blob.size))
+                  canvas.toBlob(
+                    (finalBlob) => {
+                      try {
+                        if (!finalBlob) {
+                          reject(new Error('Failed to compress image further'))
+                          return
+                        }
+                        
+                        const compressedFile = new File([finalBlob], file.name, {
+                          type: file.type,
+                          lastModified: Date.now()
+                        })
+                        resolve(compressedFile)
+                      } catch (error) {
+                        reject(new Error(`Failed to create compressed file: ${error}`))
+                      }
+                    },
+                    file.type,
+                    furtherCompressedQuality
+                  )
+                } else {
+                  const compressedFile = new File([blob], file.name, {
+                    type: file.type,
+                    lastModified: Date.now()
+                  })
+                  resolve(compressedFile)
+                }
+              } catch (error) {
+                reject(new Error(`Failed to process blob: ${error}`))
+              }
+            },
+            file.type,
+            opts.quality
+          )
+        } catch (error) {
+          reject(new Error(`Failed to process image: ${error}`))
+        }
+      }
+      
+      img.onerror = () => reject(new Error('Failed to load image'))
+      img.src = URL.createObjectURL(file)
+    } catch (error) {
+      reject(new Error(`Compression setup failed: ${error}`))
     }
-    
-    img.onerror = () => reject(new Error('Failed to load image'))
-    img.src = URL.createObjectURL(file)
   })
 }
 
@@ -104,12 +126,13 @@ export async function compressImages(
   
   for (const file of files) {
     try {
-      // Compress all images, not just those > 1MB
+      // Only compress image files
       if (file.type.startsWith('image/')) {
         const compressedFile = await compressImage(file, options)
         compressedFiles.push(compressedFile)
         console.log(`Compressed ${file.name}: ${(file.size / 1024 / 1024).toFixed(2)}MB → ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`)
       } else {
+        console.log(`Skipping non-image file: ${file.name} (${file.type})`)
         compressedFiles.push(file)
       }
     } catch (error) {

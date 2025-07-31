@@ -115,12 +115,19 @@ export default function AdminPage() {
       console.log(`Original total size: ${formatFileSize(originalSize)}`)
       
       // Compress images before upload with more aggressive settings
-      const compressedFiles = await compressImages(fileArray, {
-        maxWidth: 1200,
-        maxHeight: 800,
-        quality: 0.6,
-        maxFileSize: 2 * 1024 * 1024 // 2MB per file
-      })
+      let compressedFiles: File[]
+      try {
+        compressedFiles = await compressImages(fileArray, {
+          maxWidth: 1200,
+          maxHeight: 800,
+          quality: 0.6,
+          maxFileSize: 2 * 1024 * 1024 // 2MB per file
+        })
+      } catch (compressionError) {
+        console.error('Compression failed:', compressionError)
+        setError('Failed to compress images. Please try again.')
+        return
+      }
       
       // Check if any files are still too large after compression
       const oversizedFiles = compressedFiles.filter(file => file.size > 5 * 1024 * 1024)
