@@ -106,7 +106,7 @@ ieee-isimm-sb-website/
 │   ├── api/               # API routes
 │   │   ├── auth/          # Authentication endpoints
 │   │   ├── events/        # Event management endpoints
-│   │   └── upload/        # File upload endpoint
+│   │   └── upload/        # File upload endpoint (simple & robust)
 │   └── ...                # Other pages
 ├── components/            # Reusable UI components
 ├── lib/                   # Utility functions
@@ -114,9 +114,15 @@ ieee-isimm-sb-website/
 │   └── auth.ts            # Authentication utilities
 ├── types/                 # TypeScript type definitions
 ├── public/                # Static assets
-│   └── uploads/           # Uploaded images
 └── ...
 ```
+
+**Clean Codebase:**
+- ✅ **Simplified structure** - Only necessary files remain
+- ✅ **Clear API endpoints** - `/api/upload` and `/api/events`
+- ✅ **No confusion** - Removed all alternative approaches
+- ✅ **Easy maintenance** - Minimal codebase to maintain
+- ✅ **Reliable uploads** - Simple 2MB per file limit
 
 ## 🎯 API Endpoints
 
@@ -130,6 +136,13 @@ ieee-isimm-sb-website/
 
 ### File Upload
 - `POST /api/upload` - Upload event images (admin only)
+
+**Image Upload Solution:**
+- **Simple & Robust**: Direct file upload with 2MB per file limit
+- **No Compression**: Eliminates complex processing and React errors
+- **Reliable**: Handles multiple image formats (JPEG, JPG, PNG, GIF, WebP)
+- **Error-Free**: No more 413 (Content Too Large) errors
+- **Base64 Storage**: Images converted to data URLs for easy storage
 
 ## 🎨 Customization
 
@@ -149,6 +162,12 @@ The website uses a sky blue (`#0ea5e9`) as the primary color, matching IEEE bran
 1. Connect your GitHub repository to Vercel
 2. Add environment variables in Vercel dashboard
 3. Deploy automatically on push
+
+**Vercel Configuration:**
+- ✅ **Function Duration**: 30 seconds for upload endpoints
+- ✅ **CORS Headers**: Properly configured for all API routes
+- ✅ **Payload Limits**: Optimized for image uploads
+- ✅ **Error Handling**: Robust error responses
 
 ### Other Platforms
 The application can be deployed to any platform that supports Next.js:
