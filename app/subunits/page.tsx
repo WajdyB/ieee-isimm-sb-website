@@ -122,7 +122,7 @@ const subunits = [
       facebook: "https://www.facebook.com/profile.php?id=100091680498696",
       linkedin: "",
       instagram: "https://www.instagram.com/ieee.sight.isimm/?hl=fr",
-      website: "",
+      website: "https://ieee-isimm-sight-website.vercel.app/",
     },
   },
 ]
