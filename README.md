@@ -59,11 +59,11 @@ Create a `.env.local` file in the root directory with the following variables:
 
 ```env
 # MongoDB Configuration
-MONGODB_URI=mongodb://localhost:27017/ieee-isimm
+MONGODB_URI=
 
 # Admin Authentication
-ADMIN_EMAIL=admin@ieee-isimm.org
-ADMIN_PASSWORD=admin123
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
 
 # JWT Secret (generate a strong secret for production)
 JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
@@ -85,11 +85,6 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) to view the website.
 
-## 🔐 Admin Access
-
-### Default Credentials
-- **Email**: admin@ieee-isimm.org
-- **Password**: admin123
 
 ### Admin Dashboard
 Access the admin dashboard at `/admin` to:
@@ -189,12 +184,12 @@ The application can be deployed to any platform that supports Next.js:
 
 ### Environment Variables for Production
 ```env
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ieee-isimm
-ADMIN_EMAIL=your-admin-email@domain.com
-ADMIN_PASSWORD=your-strong-password
-JWT_SECRET=your-very-long-and-random-secret-key
-NEXTAUTH_URL=https://your-domain.com
-NEXTAUTH_SECRET=your-nextauth-secret
+MONGODB_URI=
+ADMIN_EMAIL=
+ADMIN_PASSWORD=
+JWT_SECRET=
+NEXTAUTH_URL=
+NEXTAUTH_SECRET=
 ```
 
 ## 🤝 Contributing

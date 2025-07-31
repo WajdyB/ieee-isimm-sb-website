@@ -38,5 +38,7 @@ export const authenticateAdmin = async (email: string, password: string): Promis
     return false
   }
   
-  return await verifyPassword(password, await hashPassword(adminPassword))
+  // For simple password comparison (not recommended for production)
+  // In production, you should store hashed passwords in database
+  return password === adminPassword
 } 
