@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 import { ApiResponse } from '@/types/event'
-
-// Simple upload that converts images to smaller base64 strings
-// This approach avoids the complex compression and size issues
+import clientPromise from '@/lib/mongodb'
+import { GridFSBucket } from 'mongodb'
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,49 +34,69 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const uploadedUrls: string[] = []
-    const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+    const client = await clientPromise
+    const db = client.db('ieee-isimm')
+    const bucket = new GridFSBucket(db, { bucketName: 'event-images' })
+    const uploadedFiles: { url: string; id: string; filename: string }[] = []
 
-    for (const file of files) {
-      if (!validImageTypes.includes(file.type)) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
         console.warn(`Skipping non-image file: ${file.name} (${file.type})`)
+        continue
+      }
+      
+      // Validate file size (max 10MB)
+      const maxSize = 10 * 1024 * 1024 // 10MB
+      if (file.size > maxSize) {
+        console.warn(`File ${file.name} is too large (${(file.size / 1024 / 1024).toFixed(2)}MB), skipping`)
         continue
       }
 
       try {
-        // Simple approach: Convert to base64 but limit size
-        const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
+        // Read file buffer
+        const arrayBuffer = await file.arrayBuffer()
+        const buffer = Buffer.from(arrayBuffer)
         
-        // If file is too large, skip it with a warning
-        if (buffer.length > 2 * 1024 * 1024) { // 2MB limit
-          console.warn(`File ${file.name} is too large (${(buffer.length / 1024 / 1024).toFixed(2)}MB), skipping`)
-          continue
-        }
-
-        // Convert to Base64
-        const base64String = buffer.toString('base64')
-        const dataUrl = `data:${file.type};base64,${base64String}`
+        // Store in GridFS
+        const uploadStream = bucket.openUploadStream(file.name, {
+          contentType: file.type
+        })
         
-        uploadedUrls.push(dataUrl)
-        console.log(`Successfully processed: ${file.name} (${(buffer.length / 1024).toFixed(2)}KB)`)
+        uploadStream.end(buffer)
+        
+        await new Promise((resolve, reject) => {
+          uploadStream.on('finish', resolve)
+          uploadStream.on('error', reject)
+        })
+        
+        const id = uploadStream.id.toString()
+        uploadedFiles.push({
+          url: `/api/upload/${id}`,
+          id,
+          filename: file.name
+        })
+        
+        console.log(`Successfully uploaded: ${file.name} (${(buffer.length / 1024).toFixed(2)}KB)`)
       } catch (fileError) {
         console.error(`Error processing file ${file.name}:`, fileError)
         // Continue with other files instead of failing completely
       }
     }
 
-    if (uploadedUrls.length === 0) {
+    if (uploadedFiles.length === 0) {
       return NextResponse.json<ApiResponse>({
         success: false,
         message: 'No valid image files were uploaded or all files were too large'
       }, { status: 400 })
     }
 
-    return NextResponse.json<ApiResponse<string[]>>({
+    return NextResponse.json<ApiResponse<{ files: { url: string; id: string; filename: string }[] }>>({
       success: true,
-      data: uploadedUrls,
-      message: `Successfully uploaded ${uploadedUrls.length} image(s)`
+      data: { files: uploadedFiles },
+      message: `Successfully uploaded ${uploadedFiles.length} image(s)`
     })
 
   } catch (error) {

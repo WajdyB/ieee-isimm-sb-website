@@ -122,7 +122,7 @@ ieee-isimm-sb-website/
 - ✅ **Clear API endpoints** - `/api/upload` and `/api/events`
 - ✅ **No confusion** - Removed all alternative approaches
 - ✅ **Easy maintenance** - Minimal codebase to maintain
-- ✅ **Reliable uploads** - Simple 2MB per file limit
+- ✅ **Reliable uploads** - GridFS storage with 10MB per file limit
 
 ## 🎯 API Endpoints
 
@@ -138,11 +138,11 @@ ieee-isimm-sb-website/
 - `POST /api/upload` - Upload event images (admin only)
 
 **Image Upload Solution:**
-- **Simple & Robust**: Direct file upload with 2MB per file limit
-- **No Compression**: Eliminates complex processing and React errors
+- **GridFS Storage**: Images stored efficiently in MongoDB GridFS
+- **High Performance**: No base64 conversion, direct file storage
 - **Reliable**: Handles multiple image formats (JPEG, JPG, PNG, GIF, WebP)
-- **Error-Free**: No more 413 (Content Too Large) errors
-- **Base64 Storage**: Images converted to data URLs for easy storage
+- **Scalable**: 10MB per file limit with efficient streaming
+- **Secure**: Proper file validation and authentication
 
 ## 🎨 Customization
 

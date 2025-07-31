@@ -3,7 +3,7 @@ import clientPromise from '@/lib/mongodb'
 import { Event, CreateEventRequest, ApiResponse } from '@/types/event'
 import { verifyToken } from '@/lib/auth'
 
-// Configure maximum payload size for events (reduced since images are now compressed)
+// Configure maximum payload size for events (images are now stored separately in GridFS)
 const MAX_PAYLOAD_SIZE = 15 * 1024 * 1024 // 15MB in bytes
 
 // GET /api/events - Get all events
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       }, { status: 401 })
     }
 
-    // Check content length if available
+    // Check content length if available (events are now much smaller since images are stored separately)
     const contentLength = request.headers.get('content-length')
     if (contentLength && parseInt(contentLength) > MAX_PAYLOAD_SIZE) {
       return NextResponse.json<ApiResponse>({
@@ -77,21 +77,9 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Validate images array size
+    // Validate images array size (now URLs instead of base64)
     if (images && images.length > 0) {
-      const totalImageSize = images.reduce((total, image) => {
-        // Estimate base64 size (roughly 4/3 of original size)
-        return total + (image.length * 0.75)
-      }, 0)
-
-      if (totalImageSize > MAX_PAYLOAD_SIZE) {
-        return NextResponse.json<ApiResponse>({
-          success: false,
-          message: `Total image data too large. Please reduce the number or size of images. Maximum size is ${MAX_PAYLOAD_SIZE / (1024 * 1024)}MB`
-        }, { status: 413 })
-      }
-
-      console.log(`Creating event with ${images.length} images, estimated size: ${(totalImageSize / (1024 * 1024)).toFixed(2)}MB`)
+      console.log(`Creating event with ${images.length} images`)
     }
 
     const client = await clientPromise
@@ -123,7 +111,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof Error && error.message.includes('too large')) {
       return NextResponse.json<ApiResponse>({
         success: false,
-        message: 'Request payload too large. Please reduce the number or size of images.'
+        message: 'Request payload too large. Please check your event data.'
       }, { status: 413 })
     }
 

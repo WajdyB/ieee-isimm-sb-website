@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Plus, Trash2, Upload, Eye, EyeOff, LogOut, AlertCircle } from "lucide-react"
 import Image from "next/image"
 import { Event } from "@/types/event"
+import { getEvents, createEvent, deleteEvent, uploadImages, loginAdmin, type EventData } from "@/lib/api"
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -21,12 +22,13 @@ export default function AdminPage() {
   const [error, setError] = useState("")
   
   const [events, setEvents] = useState<Event[]>([])
-  const [newEvent, setNewEvent] = useState({
+  const [newEvent, setNewEvent] = useState<EventData>({
     title: "",
     description: "",
     date: "",
     location: "",
     attendees: 0,
+    images: [],
   })
   const [uploadedImages, setUploadedImages] = useState<string[]>([])
   const [isUploading, setIsUploading] = useState(false)
@@ -48,29 +50,26 @@ export default function AdminPage() {
   }, [isAuthenticated])
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please enter both email and password")
+      return
+    }
+
     setIsLoading(true)
     setError("")
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      })
+      const response = await loginAdmin({ email, password })
 
-      const data = await response.json()
-
-      if (data.success) {
-        setToken(data.token)
-        localStorage.setItem('adminToken', data.token)
+      if (response.success) {
+        setToken(response.data!.token)
+        localStorage.setItem('adminToken', response.data!.token)
         setIsAuthenticated(true)
         setEmail("")
         setPassword("")
         fetchEvents()
       } else {
-        setError(data.message || 'Login failed')
+        setError(response.message || 'Login failed')
       }
     } catch (error) {
       setError('Network error. Please try again.')
@@ -88,14 +87,14 @@ export default function AdminPage() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch('/api/events')
-      const data = await response.json()
-      
-      if (data.success) {
-        setEvents(data.data)
+      const response = await getEvents()
+      if (response.success) {
+        setEvents(response.data)
+      } else {
+        console.error('Failed to load events:', response.message)
       }
     } catch (error) {
-      console.error('Error fetching events:', error)
+      console.error('Error loading events:', error)
     }
   }
 
@@ -106,34 +105,19 @@ export default function AdminPage() {
     setError("")
     
     try {
-      // Simple approach: Just upload files directly
-      const formData = new FormData()
-      Array.from(files).forEach(file => {
-        formData.append('files', file)
-      })
+      // Convert FileList to Array
+      const fileArray = Array.from(files)
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-        body: formData,
-      })
+      // Upload images to server
+      const uploadResponse = await uploadImages(fileArray)
 
-      let data
-      try {
-        data = await response.json()
-      } catch (parseError) {
-        console.error('Failed to parse response:', parseError)
-        setError('Upload failed. Please try again.')
-        return
-      }
-
-      if (data.success) {
-        setUploadedImages(prev => [...prev, ...data.data])
+      if (uploadResponse.success) {
+        // Extract URLs from the response
+        const uploadedUrls = uploadResponse.data!.files.map((file: { url: string; id: string; filename: string }) => file.url)
+        setUploadedImages(prev => [...prev, ...uploadedUrls])
         setError("") // Clear any previous errors
       } else {
-        setError(data.message || 'Upload failed')
+        setError(uploadResponse.message || 'Upload failed')
       }
     } catch (error) {
       console.error('Upload error:', error)
@@ -162,29 +146,21 @@ export default function AdminPage() {
         images: uploadedImages,
       }
 
-      const response = await fetch('/api/events', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(eventData),
-      })
+      const response = await createEvent(eventData)
 
-      const data = await response.json()
-
-      if (data.success) {
+      if (response.success) {
         setNewEvent({
           title: "",
           description: "",
           date: "",
           location: "",
           attendees: 0,
+          images: [],
         })
         setUploadedImages([])
         fetchEvents()
       } else {
-        setError(data.message || 'Failed to create event')
+        setError(response.message || 'Failed to create event')
       }
     } catch (error) {
       setError('Network error. Please try again.')
@@ -197,19 +173,12 @@ export default function AdminPage() {
     if (!confirm("Are you sure you want to delete this event?")) return
 
     try {
-      const response = await fetch(`/api/events/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      })
+      const response = await deleteEvent(id)
 
-      const data = await response.json()
-
-      if (data.success) {
+      if (response.success) {
         fetchEvents()
       } else {
-        setError(data.message || 'Failed to delete event')
+        setError(response.message || 'Failed to delete event')
       }
     } catch (error) {
       setError('Network error. Please try again.')
@@ -460,10 +429,10 @@ export default function AdminPage() {
                       Upload multiple images for your event gallery (optional)
                     </p>
                     <p className="text-xs text-gray-400">
-                      Simple and reliable upload - no compression needed
+                      Images are stored securely in GridFS - max 10MB per image
                     </p>
                     <p className="text-xs text-green-500">
-                      ✅ Tip: Upload any size images, system handles the rest
+                      ✅ Tip: Images are optimized and served efficiently
                     </p>
                   </div>
                 </div>

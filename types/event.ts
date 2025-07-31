@@ -5,7 +5,7 @@ export interface Event {
   date: string
   location: string
   attendees: number
-  images: string[]
+  images: string[] // Now contains URLs to GridFS images
   createdAt?: Date
   updatedAt?: Date
 }
