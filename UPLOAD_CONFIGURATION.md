@@ -7,8 +7,9 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
 
 ### 1. Vercel Configuration (vercel.json)
 - Created `vercel.json` to configure API route limits
-- Increased function timeout to 30 seconds
+- Increased function timeout to 30 seconds for all API routes
 - Added CORS headers for better compatibility
+- Configured both `/api/upload` and `/api/events` endpoints
 
 ### 2. Next.js Configuration (next.config.mjs)
 - Increased body parser size limit to 50MB
@@ -22,13 +23,26 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
 - Graceful handling of individual file failures
 - CORS support with OPTIONS method
 
-### 4. Alternative Cloud Storage API (app/api/upload-cloud/route.ts)
+### 4. Enhanced Events API (app/api/events/route.ts)
+- Added payload size validation (50MB total)
+- Better error handling for large image arrays
+- Image count and size estimation
+- CORS support with OPTIONS method
+
+### 5. Alternative Event Creation API (app/api/events/create/route.ts)
+- Dedicated endpoint for event creation with large image arrays
+- Limits to 20 images per event to prevent issues
+- Optimized for handling multiple images
+
+### 6. Alternative Cloud Storage API (app/api/upload-cloud/route.ts)
 - Template for future cloud storage integration
 - Can be extended with Cloudinary, AWS S3, or Firebase Storage
 
 ## Current Limits
 - **Per file**: 50MB
 - **Total upload**: 100MB
+- **Event creation**: 50MB total payload
+- **Images per event**: 20 maximum
 - **Supported formats**: JPEG, JPG, PNG, GIF, WebP
 
 ## Deployment Steps
@@ -36,7 +50,7 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
 1. **Commit and push your changes:**
    ```bash
    git add .
-   git commit -m "Fix image upload size limits"
+   git commit -m "Fix image upload and event creation size limits"
    git push origin main
    ```
 
@@ -44,10 +58,21 @@ You're getting a 413 "Content Too Large" error when uploading multiple images to
    - Your Vercel project will automatically redeploy
    - The new configuration will take effect
 
-3. **Test the upload functionality:**
+3. **Test the functionality:**
    - Try uploading multiple large images
+   - Create events with many images
    - Check the browser console for any errors
    - Verify that images are being processed correctly
+
+## API Endpoints
+
+### Upload Images
+- **POST** `/api/upload` - Upload images separately
+- **POST** `/api/upload-cloud` - Cloud storage upload (template)
+
+### Create Events
+- **POST** `/api/events` - Create event with images (enhanced)
+- **POST** `/api/events/create` - Dedicated event creation endpoint
 
 ## Future Improvements
 
@@ -84,13 +109,16 @@ npm install firebase
 ### Still getting 413 errors?
 1. Check if you're uploading more than 100MB total
 2. Verify individual files are under 50MB
-3. Ensure you're using supported image formats
-4. Check Vercel deployment logs for specific errors
+3. Ensure event payload is under 50MB
+4. Limit images to 20 per event
+5. Ensure you're using supported image formats
+6. Check Vercel deployment logs for specific errors
 
 ### Performance issues?
 1. Consider implementing client-side image compression
 2. Use the cloud storage alternative for unlimited uploads
 3. Implement lazy loading for large image galleries
+4. Use the dedicated `/api/events/create` endpoint
 
 ### Need unlimited uploads?
 1. Implement cloud storage integration (Cloudinary recommended)
@@ -101,9 +129,11 @@ npm install firebase
 - Check Vercel function logs for upload performance
 - Monitor API response times
 - Track upload success/failure rates
+- Monitor event creation performance
 
 ## Security Notes
 - All uploads require admin authentication
 - File type validation prevents malicious uploads
 - Size limits prevent abuse
-- CORS headers are properly configured 
+- CORS headers are properly configured
+- Image count limits prevent resource exhaustion 

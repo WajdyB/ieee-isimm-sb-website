@@ -3,40 +3,6 @@ import clientPromise from '@/lib/mongodb'
 import { Event, CreateEventRequest, ApiResponse } from '@/types/event'
 import { verifyToken } from '@/lib/auth'
 
-// Configure maximum payload size for events
-const MAX_PAYLOAD_SIZE = 50 * 1024 * 1024 // 50MB in bytes
-
-// GET /api/events - Get all events
-export async function GET() {
-  try {
-    const client = await clientPromise
-    const db = client.db('ieee-isimm')
-    const events = await db.collection('events')
-      .find({})
-      .sort({ createdAt: -1 })
-      .toArray()
-
-    // Convert MongoDB ObjectIds to strings for the frontend
-    const formattedEvents = events.map(event => ({
-      ...event,
-      _id: event._id.toString()
-    }))
-
-    return NextResponse.json<ApiResponse<Event[]>>({
-      success: true,
-      data: formattedEvents
-    })
-
-  } catch (error) {
-    console.error('Error fetching events:', error)
-    return NextResponse.json<ApiResponse>({
-      success: false,
-      message: 'Failed to fetch events'
-    }, { status: 500 })
-  }
-}
-
-// POST /api/events - Create new event
 export async function POST(request: NextRequest) {
   try {
     // Verify admin token
@@ -57,15 +23,6 @@ export async function POST(request: NextRequest) {
       }, { status: 401 })
     }
 
-    // Check content length if available
-    const contentLength = request.headers.get('content-length')
-    if (contentLength && parseInt(contentLength) > MAX_PAYLOAD_SIZE) {
-      return NextResponse.json<ApiResponse>({
-        success: false,
-        message: `Request payload too large. Maximum size is ${MAX_PAYLOAD_SIZE / (1024 * 1024)}MB`
-      }, { status: 413 })
-    }
-
     const body: CreateEventRequest = await request.json()
     const { title, description, date, location, attendees, images } = body
 
@@ -77,21 +34,12 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Validate images array size
-    if (images && images.length > 0) {
-      const totalImageSize = images.reduce((total, image) => {
-        // Estimate base64 size (roughly 4/3 of original size)
-        return total + (image.length * 0.75)
-      }, 0)
-
-      if (totalImageSize > MAX_PAYLOAD_SIZE) {
-        return NextResponse.json<ApiResponse>({
-          success: false,
-          message: `Total image data too large. Please reduce the number or size of images. Maximum size is ${MAX_PAYLOAD_SIZE / (1024 * 1024)}MB`
-        }, { status: 413 })
-      }
-
-      console.log(`Creating event with ${images.length} images, estimated size: ${(totalImageSize / (1024 * 1024)).toFixed(2)}MB`)
+    // Validate images array size (limit to 20 images to prevent issues)
+    if (images && images.length > 20) {
+      return NextResponse.json<ApiResponse>({
+        success: false,
+        message: 'Maximum 20 images allowed per event'
+      }, { status: 400 })
     }
 
     const client = await clientPromise
@@ -103,7 +51,7 @@ export async function POST(request: NextRequest) {
       date,
       location,
       attendees,
-      images: images || [], // Use images from request body
+      images: images || [],
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -134,13 +82,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Handle OPTIONS request for CORS
 export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
     status: 200,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     },
   })

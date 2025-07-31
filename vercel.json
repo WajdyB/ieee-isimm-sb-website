@@ -2,11 +2,33 @@
   "functions": {
     "app/api/upload/route.ts": {
       "maxDuration": 30
+    },
+    "app/api/events/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/events/create/route.ts": {
+      "maxDuration": 30
     }
   },
   "routes": [
     {
       "src": "/api/upload",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    },
+    {
+      "src": "/api/events",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    },
+    {
+      "src": "/api/events/create",
       "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
