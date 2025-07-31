@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 import { ApiResponse } from '@/types/event'
 
-// Configure maximum file size (50MB per file)
-const MAX_FILE_SIZE = 50 * 1024 * 1024 // 50MB in bytes
-const MAX_TOTAL_SIZE = 100 * 1024 * 1024 // 100MB total limit
+// This is an alternative approach using cloud storage
+// You can integrate with services like Cloudinary, AWS S3, or Firebase Storage
+// For now, this serves as a template for future implementation
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,26 +36,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Validate file sizes
-    let totalSize = 0
-    for (const file of files) {
-      if (file.size > MAX_FILE_SIZE) {
-        return NextResponse.json<ApiResponse>({
-          success: false,
-          message: `File ${file.name} is too large. Maximum size is ${MAX_FILE_SIZE / (1024 * 1024)}MB`
-        }, { status: 413 })
-      }
-      totalSize += file.size
-    }
-
-    if (totalSize > MAX_TOTAL_SIZE) {
-      return NextResponse.json<ApiResponse>({
-        success: false,
-        message: `Total upload size is too large. Maximum total size is ${MAX_TOTAL_SIZE / (1024 * 1024)}MB`
-      }, { status: 413 })
-    }
-
-    const uploadedFiles: string[] = []
+    const uploadedUrls: string[] = []
     const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
 
     for (const file of files) {
@@ -65,22 +46,26 @@ export async function POST(request: NextRequest) {
       }
 
       try {
+        // TODO: Implement cloud storage upload here
+        // Example with Cloudinary:
+        // const cloudinary = require('cloudinary').v2
+        // const result = await cloudinary.uploader.upload(file)
+        // uploadedUrls.push(result.secure_url)
+        
+        // For now, fallback to base64 (same as original upload)
         const bytes = await file.arrayBuffer()
         const buffer = Buffer.from(bytes)
-
-        // Convert to Base64
         const base64String = buffer.toString('base64')
         const dataUrl = `data:${file.type};base64,${base64String}`
         
-        uploadedFiles.push(dataUrl)
+        uploadedUrls.push(dataUrl)
         console.log(`Successfully processed: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`)
       } catch (fileError) {
         console.error(`Error processing file ${file.name}:`, fileError)
-        // Continue with other files instead of failing completely
       }
     }
 
-    if (uploadedFiles.length === 0) {
+    if (uploadedUrls.length === 0) {
       return NextResponse.json<ApiResponse>({
         success: false,
         message: 'No valid image files were uploaded'
@@ -89,21 +74,12 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json<ApiResponse<string[]>>({
       success: true,
-      data: uploadedFiles,
-      message: `Successfully uploaded ${uploadedFiles.length} image(s)`
+      data: uploadedUrls,
+      message: `Successfully uploaded ${uploadedUrls.length} image(s)`
     })
 
   } catch (error) {
     console.error('Error uploading files:', error)
-    
-    // Check if it's a payload size error
-    if (error instanceof Error && error.message.includes('too large')) {
-      return NextResponse.json<ApiResponse>({
-        success: false,
-        message: 'Upload size too large. Please reduce the number or size of images.'
-      }, { status: 413 })
-    }
-
     return NextResponse.json<ApiResponse>({
       success: false,
       message: 'Failed to upload files. Please try again.'
@@ -111,7 +87,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Handle OPTIONS request for CORS
 export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
     status: 200,
