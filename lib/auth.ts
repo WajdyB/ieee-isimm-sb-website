@@ -31,14 +31,18 @@ export const verifyToken = (token: string): { email: string } | null => {
 export const authenticateAdmin = async (email: string, password: string): Promise<boolean> => {
   // In a real app, you'd fetch from database
   // For now, using environment variables
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@ieee-isimm.org'
-  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123'
+  const adminEmail = process.env.ADMIN_EMAIL
+  const adminPassword = process.env.ADMIN_PASSWORD
+  
+  if (!adminEmail || !adminPassword) {
+    return false
+  }
   
   if (email !== adminEmail) {
     return false
   }
   
-  // For simple password comparison (not recommended for production)
+  // For development: simple password comparison
   // In production, you should store hashed passwords in database
   return password === adminPassword
 } 
