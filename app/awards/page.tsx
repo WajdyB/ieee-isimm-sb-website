@@ -44,7 +44,7 @@ const awards: Award[] = [
   },
   {
     id: 4,
-    title: "Winners of the Sight Day Congree 2.0",
+    title: "Winners of the Sight Day Congress 2.0",
     description: "We emerged victorious in the prestigious Sight Day Congress 2.0, showcasing our leadership in organizing and executing large-scale technical events. This recognition celebrates our ability to bring together the engineering community and create meaningful learning experiences for all participants.",
     year: "2024",
     image: "/awards/sdc-winners.jpg",

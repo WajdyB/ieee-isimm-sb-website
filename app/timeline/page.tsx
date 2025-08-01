@@ -7,13 +7,22 @@ import Link from "next/link"
 
 const timelineEvents = [
   {
-    id: 7,
+    id: 8,
     date: "2024 - Present",
     title: "Today...",
     description:
       "While many days hold special occasions and events for our Student Branch, it goes without saying that everyday is a special one. IEEE is not just an organization, it develops to be a lifestyle that fosters an endearing sense of belonging. Whether it's organizing events, participating in various events, it certainly is a remarkable one with you... as part of IEEE.",
     type: "present",
     logo: null,
+  },
+  {
+    id: 7,
+    date: "19-20, April 2025",
+    title: "SIGHT Day Congress 3.0",
+    description:
+      "Our Student Branch proudly organized the SIGHT Day Congress 3.0, a significant event that brought together IEEE members and professionals to discuss humanitarian technology and sustainable development. This congress showcased our commitment to advancing technology for humanity and our ability to host major IEEE events.",
+    type: "event",
+    logo: "/timeline/sdc-logo.png",
   },
   {
     id: 6,

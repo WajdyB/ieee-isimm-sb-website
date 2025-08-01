@@ -273,6 +273,62 @@ export default function HomePage() {
         </div>
       </section>
       
+      {/* Facebook Video Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center animate-on-scroll">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <span className="text-sky-500">OUR STORY</span>
+            </h2>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-8">
+              Discover IEEE ISIMM Student Branch's Mission & Goals
+            </h3>
+            <p className="text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+              Watch our comprehensive video showcasing the mission, goals, and achievements of IEEE ISIMM Student Branch. 
+              Learn about our commitment to advancing technology for humanity and fostering professional development.
+            </p>
+            
+            {/* Facebook Video Embed */}
+            <div className="relative w-full max-w-3xl mx-auto">
+              <div className="relative pb-[56.25%] h-0 rounded-xl overflow-hidden shadow-2xl">
+                <iframe
+                  src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Fieeeisimmsb%2Fvideos%2F1055199485479244&show_text=false&width=560&t=0"
+                  width="100%"
+                  height="100%"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }}
+                  scrolling="no"
+                  frameBorder="0"
+                  allowFullScreen={true}
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="IEEE ISIMM Student Branch Mission & Goals"
+                ></iframe>
+              </div>
+            </div>
+            
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-500 mb-4">
+                Can't see the video? 
+                <a 
+                  href="https://www.facebook.com/ieeeisimmsb/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sky-500 hover:text-sky-600 ml-1 underline"
+                >
+                  Visit our Facebook page
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      
       {/* Redesigned Chapters & Affinity Groups Section */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">

@@ -18,7 +18,7 @@ const faqs = [
   {
     question: "How do I join the IEEE ISIMM Student Branch?",
     answer:
-      "To join our student branch, you need to be a student at ISIMM and have an IEEE membership. You can apply through our website or contact us directly. We welcome students from all engineering disciplines who are passionate about technology and innovation.",
+      "To join our student branch, you just need to have an active IEEE membership. You can apply through our website or contact us directly. We welcome students from all engineering disciplines who are passionate about technology and innovation.",
   },
   {
     question: "What are the benefits of joining?",
