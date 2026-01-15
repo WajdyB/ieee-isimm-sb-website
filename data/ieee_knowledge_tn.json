@@ -1,0 +1,455 @@
+{
+    "version": "1.0",
+    "updatedAt": "2026-01-15",
+    "entries": [
+        {
+            "id": "ieee-overview",
+            "title": "What is IEEE?",
+            "tags": [
+                "ieee",
+                "definition",
+                "overview",
+                "mission"
+            ],
+            "content": "IEEE (Institute of Electrical and Electronics Engineers) is the world's largest technical professional organization dedicated to advancing technology for the benefit of humanity.",
+            "links": [
+                {
+                    "label": "About IEEE",
+                    "url": "https://www.ieee.org/about/index.html"
+                }
+            ],
+            "priority": 1
+        },
+        {
+            "id": "ieee-mission",
+            "title": "IEEE Mission & Vision",
+            "tags": [
+                "mission",
+                "vision",
+                "goal"
+            ],
+            "content": "IEEE's core purpose is to foster technological innovation and excellence for the benefit of humanity. Its vision is to be essential to the global technical community and to technical professionals everywhere.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-societies",
+            "title": "IEEE Technical Societies",
+            "tags": [
+                "societies",
+                "groups",
+                "technical"
+            ],
+            "content": "IEEE has 39 technical societies and seven technical councils representing the wide range of IEEE technical interests.",
+            "links": [
+                {
+                    "label": "Browse Societies",
+                    "url": "https://www.ieee.org/communities/societies/index.html"
+                }
+            ],
+            "priority": 3
+        },
+        {
+            "id": "ieee-standards",
+            "title": "IEEE Standards",
+            "tags": [
+                "standards",
+                "802",
+                "technology"
+            ],
+            "content": "IEEE is a leading developer of industry standards in a broad range of technologies, including the IEEE 802.11 (Wi-Fi) standard.",
+            "links": [
+                {
+                    "label": "IEEE Standards Association",
+                    "url": "https://standards.ieee.org/"
+                }
+            ],
+            "priority": 3
+        },
+        {
+            "id": "ieee-xplore",
+            "title": "IEEE Xplore Digital Library",
+            "tags": [
+                "xplore",
+                "library",
+                "research",
+                "papers"
+            ],
+            "content": "IEEE Xplore is a digital library providing access to more than 5 million documents from IEEE and its partners, including journals, conferences, and standards.",
+            "links": [
+                {
+                    "label": "IEEE Xplore",
+                    "url": "https://ieeexplore.ieee.org/"
+                }
+            ],
+            "priority": 2
+        },
+        {
+            "id": "ieee-membership-benefits",
+            "title": "Student Membership Benefits",
+            "tags": [
+                "membership",
+                "benefits",
+                "student",
+                "join"
+            ],
+            "content": "Benefits include access to the latest technical information, networking opportunities, career resources, and discounts on conferences and publications.",
+            "links": [
+                {
+                    "label": "Join IEEE",
+                    "url": "https://www.ieee.org/membership/join/index.html"
+                }
+            ],
+            "priority": 1
+        },
+        {
+            "id": "ieee-tunisia-section",
+            "title": "IEEE Tunisia Section",
+            "tags": [
+                "tunisia",
+                "section",
+                "region 8"
+            ],
+            "content": "The IEEE Tunisia Section was formed in 2008. It aims to share technical knowledge, organize events, and support student branches across Tunisia.",
+            "links": [
+                {
+                    "label": "IEEE Tunisia Section",
+                    "url": "https://ieee.tn/"
+                }
+            ],
+            "priority": 2
+        },
+        {
+            "id": "ieee-isimm-sb",
+            "title": "IEEE ISIMM Student Branch",
+            "tags": [
+                "isimm",
+                "student branch",
+                "sb",
+                "about"
+            ],
+            "content": "The IEEE ISIMM Student Branch is a vibrant community of engineering students at ISIMM (Higher Institute of Informatics and Multimedia of Monastir). We organize workshops, competitions, and technical events.",
+            "links": [],
+            "priority": 1
+        },
+        {
+            "id": "isimm-sb-history",
+            "title": "ISIMM SB History",
+            "tags": [
+                "history",
+                "founded",
+                "legacy"
+            ],
+            "content": "With over 6 years of activity, IEEE ISIMM SB has built a legacy of excellence, memories, and professional growth for its members.",
+            "links": [],
+            "priority": 3
+        },
+        {
+            "id": "isimm-sb-chapters",
+            "title": "Technical Chapters at ISIMM SB",
+            "tags": [
+                "chapters",
+                "subunits",
+                "groups"
+            ],
+            "content": "ISIMM SB hosts several chapters including Computer Society (CS), Computational Intelligence (CIS), Robotics and Automation (RAS), EMBS, IAS/PES, and affinity groups like SIGHT and WIE.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-cs",
+            "title": "Computer Society (CS) Chapter",
+            "tags": [
+                "cs",
+                "computer society",
+                "coding",
+                "software"
+            ],
+            "content": "The IEEE Computer Society is the premier source for information, inspiration, and collaboration in computer science and engineering.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-ras",
+            "title": "Robotics and Automation Society (RAS)",
+            "tags": [
+                "ras",
+                "robotics",
+                "automation",
+                "hardware"
+            ],
+            "content": "IEEE RAS focuses on the advancement of the theory and practice of robotics and automation engineering and science.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-wie",
+            "title": "Women in Engineering (WIE)",
+            "tags": [
+                "wie",
+                "women",
+                "engineering",
+                "affinity group"
+            ],
+            "content": "IEEE WIE is a global network of IEEE members and volunteers dedicated to promoting women engineers and scientists and inspiring girls to follow their academic interests in a career in engineering and science.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-embs",
+            "title": "Engineering in Medicine & Biology (EMBS)",
+            "tags": [
+                "embs",
+                "medical",
+                "biology",
+                "healthcare"
+            ],
+            "content": "IEEE EMBS is the world's largest international society of biomedical engineers, providing a platform for sharing technical knowledge in medicine and biology.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-cis",
+            "title": "Computational Intelligence Society (CIS)",
+            "tags": [
+                "cis",
+                "ai",
+                "machine learning",
+                "neural networks"
+            ],
+            "content": "IEEE CIS focuses on the theory, design, application, and development of biologically and linguistically motivated computational paradigms.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-ias-pes",
+            "title": "IAS/PES Joint Chapter",
+            "tags": [
+                "ias",
+                "pes",
+                "power",
+                "energy",
+                "industry"
+            ],
+            "content": "A joint chapter combining Industrial Applications (IAS) and Power & Energy (PES) societies, focusing on energy systems and industrial technical standards.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-sight",
+            "title": "IEEE SIGHT",
+            "tags": [
+                "sight",
+                "humanitarian",
+                "social",
+                "impact"
+            ],
+            "content": "Special Interest Group on Humanitarian Technology (SIGHT) is an IEEE program that partners with underserved communities and local organizations to leverage technology for sustainable development.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "joining-isimm-sb",
+            "title": "How to join IEEE ISIMM SB?",
+            "tags": [
+                "join",
+                "admission",
+                "registration",
+                "member"
+            ],
+            "content": "To join IEEE ISIMM SB, you typically need to be an IEEE member and then register during our recruitment periods. Keep an eye on our social media for the registration link.",
+            "links": [],
+            "priority": 1
+        },
+        {
+            "id": "isimm-sb-events",
+            "title": "What kind of events do you organize?",
+            "tags": [
+                "events",
+                "workshops",
+                "competitions",
+                "talks"
+            ],
+            "content": "We organize a wide range of events including technical workshops (coding, hardware), hackathons, soft skills training, and industrial visits.",
+            "links": [
+                {
+                    "label": "View Events",
+                    "url": "/events"
+                }
+            ],
+            "priority": 1
+        },
+        {
+            "id": "extreme-competition",
+            "title": "IEEE Xtreme",
+            "tags": [
+                "xtreme",
+                "coding",
+                "competition",
+                "24h"
+            ],
+            "content": "IEEE Xtreme is a global, 24-hour competitive programming competition for student members.",
+            "links": [
+                {
+                    "label": "IEEE Xtreme",
+                    "url": "https://ieeextreme.org/"
+                }
+            ],
+            "priority": 2
+        },
+        {
+            "id": "ieeetv",
+            "title": "IEEE.tv",
+            "tags": [
+                "tv",
+                "video",
+                "educational"
+            ],
+            "content": "IEEE.tv is an award-winning online video network made possible by the members of IEEE.",
+            "links": [
+                {
+                    "label": "IEEE.tv",
+                    "url": "https://ieeetv.ieee.org/"
+                }
+            ],
+            "priority": 3
+        },
+        {
+            "id": "ieee-foundation",
+            "title": "IEEE Foundation",
+            "tags": [
+                "foundation",
+                "charity",
+                "philanthropy"
+            ],
+            "content": "The IEEE Foundation provides philanthropic support for IEEE programs that illuminate, educate, stimulate, and innovate.",
+            "links": [],
+            "priority": 3
+        },
+        {
+            "id": "ieee-regions",
+            "title": "IEEE Regions",
+            "tags": [
+                "regions",
+                "geography"
+            ],
+            "content": "IEEE is divided into 10 geographic regions. Tunisia is part of Region 8 (Europe, Middle East, and Africa).",
+            "links": [],
+            "priority": 3
+        },
+        {
+            "id": "ieee-fellows",
+            "title": "IEEE Fellows",
+            "tags": [
+                "fellows",
+                "rank",
+                "distinction"
+            ],
+            "content": "IEEE Fellow is a distinction reserved for select IEEE members whose extraordinary accomplishments in any of the IEEE fields of interest are deemed fitting of this prestigious grade elevation.",
+            "links": [],
+            "priority": 3
+        },
+        {
+            "id": "volunteer-opportunities",
+            "title": "Volunteer Opportunities",
+            "tags": [
+                "volunteer",
+                "leadership",
+                "active"
+            ],
+            "content": "Being a volunteer in IEEE ISIMM SB helps you develop leadership, communication, and management skills while contributing to the community.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "contact-isimm-sb",
+            "title": "How to contact ISIMM SB?",
+            "tags": [
+                "contact",
+                "email",
+                "social media",
+                "location"
+            ],
+            "content": "You can contact us via our Facebook page 'IEEE ISIMM Student Branch' or through the contact form on our website.",
+            "links": [
+                {
+                    "label": "Contact Page",
+                    "url": "/contact"
+                }
+            ],
+            "priority": 1
+        },
+        {
+            "id": "ieee-journals",
+            "title": "IEEE Journals",
+            "tags": [
+                "journals",
+                "publications",
+                "research"
+            ],
+            "content": "IEEE publishes nearly 200 peer-reviewed journals, which are among the most highly cited in electrical engineering, computer science, and related fields.",
+            "links": [],
+            "priority": 3
+        },
+        {
+            "id": "soft-skills-training",
+            "title": "Soft Skills at ISIMM SB",
+            "tags": [
+                "soft skills",
+                "communication",
+                "leadership"
+            ],
+            "content": "Beyond technical skills, we provide training in public speaking, project management, and teamwork to prepare students for professional life.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieee-isimm-goals",
+            "title": "Goals of IEEE ISIMM SB",
+            "tags": [
+                "goals",
+                "training",
+                "creativity"
+            ],
+            "content": "Our goals include training, team building, organizing events, and inspiring creativity among engineering students.",
+            "links": [],
+            "priority": 1
+        },
+        {
+            "id": "ieee-branding",
+            "title": "IEEE Branding",
+            "tags": [
+                "branding",
+                "logo",
+                "color"
+            ],
+            "content": "IEEE uses a specific blue color, and student branches follow official branding guidelines to maintain a professional identity.",
+            "links": [],
+            "priority": 3
+        },
+        {
+            "id": "ieee-conferences",
+            "title": "IEEE Conferences",
+            "tags": [
+                "conferences",
+                "nexus",
+                "technical program"
+            ],
+            "content": "IEEE sponsors more than 2,000 conferences and events worldwide each year.",
+            "links": [],
+            "priority": 2
+        },
+        {
+            "id": "ieeewie-isimm",
+            "title": "WIE ISIMM SB Activities",
+            "tags": [
+                "wie",
+                "women in engineering",
+                "isimm"
+            ],
+            "content": "The WIE affinity group at ISIMM SB organizes specific events to support and celebrate women in technical fields.",
+            "links": [],
+            "priority": 2
+        }
+    ]
+}

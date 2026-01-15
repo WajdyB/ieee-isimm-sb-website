@@ -1,0 +1,4 @@
+# Copy these to your .env file
+LLM_PROVIDER=GEMINI
+LLM_API_KEY=your-google-gemini-api-key-here
+LLM_MODEL=gemini-1.5-flash
