@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { searchKB } from '@/lib/kb-engine'
+import { getAllEntries, searchKB } from '@/lib/kb-engine'
 import { callLLM, ChatMessage } from '@/lib/llm-provider'
 
 // Simple in-memory rate limiting for MVP
@@ -48,30 +48,38 @@ export async function POST(req: NextRequest) {
 
         const latestQuery = messages[messages.length - 1].content
 
-        // 1. Search Knowledge Base
+        // 1. Get full Knowledge Base and relevant matches for sources
+        const allEntries = getAllEntries()
         const kbResults = searchKB(latestQuery)
-        const contextStr = kbResults
-            .map(r => `[ID: ${r.entry.id}] ${r.entry.content}\nLinks: ${JSON.stringify(r.entry.links)}`)
-            .join('\n\n')
 
-        // 2. Prepare System Prompt
+        // 2. Format KB as structured JSON context (optimized for LLM comprehension)
+        const kbContext = allEntries.map(entry => ({
+            id: entry.id,
+            title: entry.title,
+            content: entry.content,
+            tags: entry.tags,
+            links: entry.links.length > 0 ? entry.links : undefined
+        }))
+
+        // 3. Prepare System Prompt with full KB context
         const systemPrompt = `You are "Zarga", the friendly and professional AI assistant for the IEEE ISIMM Student Branch (Higher Institute of Informatics and Multimedia of Monastir).
 
-Your Goal:
-- Answer questions primarily using the provided Knowledge Base (KB) context.
-- If the KB contains the answer, use it and cite the links provided.
-- If the KB is insufficient, use your general knowledge but stay grounded in the IEEE context.
-- If you are absolutely unsure or the topic is sensitive/unknown, say: "I’m not sure based on our IEEE ISIMM resources. I can give a general IEEE explanation or you can provide an official source."
-- Always keep answers clear, structured, and concise. Use markdown for formatting.
+## Instructions
+- Use the Knowledge Base below to answer questions accurately.
+- When information is available in the KB, reference it and include relevant links if provided.
+- For topics not covered in the KB, use your general knowledge while staying grounded in IEEE context.
+- If uncertain about sensitive or unknown topics, say: "I'm not sure based on our IEEE ISIMM resources. I can give a general IEEE explanation or you can contact us for official information."
+- Keep answers clear, structured, and concise. Use markdown formatting.
 
-Context from Knowledge Base:
-${contextStr || 'No specific matches found in KB.'}
+## Knowledge Base
+${JSON.stringify(kbContext, null, 2)}
 
+## Assistant Profile
 Name: Zarga
-Tone: Helpful, Engineering-focused, Professional.
-`
+Organization: IEEE ISIMM Student Branch
+Tone: Helpful, Engineering-focused, Professional`
 
-        // 3. Call LLM
+        // 4. Call LLM
         const fullMessages: ChatMessage[] = [
             { role: 'system', content: systemPrompt },
             ...messages
@@ -88,7 +96,7 @@ Tone: Helpful, Engineering-focused, Professional.
             sources: kbResults.map(r => ({ title: r.entry.title, links: r.entry.links })),
             meta: {
                 matches: kbResults.length,
-                usedKB: kbResults.length > 0
+                usedKB: allEntries.length > 0
             }
         })
 
