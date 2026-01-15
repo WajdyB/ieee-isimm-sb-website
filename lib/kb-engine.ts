@@ -60,3 +60,14 @@ export function searchKB(query: string): KBSearchResult[] {
         return []
     }
 }
+
+export function getAllEntries(): KBEntry[] {
+    try {
+        const fileContent = fs.readFileSync(KB_PATH, 'utf-8')
+        const kb = JSON.parse(fileContent)
+        return kb.entries as KBEntry[]
+    } catch (error) {
+        console.error('Error reading/parsing KB:', error)
+        return []
+    }
+}

@@ -13,7 +13,12 @@ export interface LLMResponse {
 export async function callLLM(messages: ChatMessage[]): Promise<LLMResponse> {
     const provider = process.env.LLM_PROVIDER || 'GEMINI'
     const apiKey = process.env.LLM_API_KEY
-    const modelName = process.env.LLM_MODEL || 'gemini-pro'
+    let modelName = process.env.LLM_MODEL || 'gemini-2.5-flash'
+    
+    // Auto-fix deprecated model names
+    if (modelName === 'gemini-pro' || modelName === 'gemini-1.5-flash') {
+        modelName = 'gemini-2.5-flash'
+    }
 
     if (!apiKey) {
         return { reply: '', error: 'LLM API key is not configured' }
