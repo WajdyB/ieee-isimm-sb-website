@@ -11,7 +11,7 @@ const committeeMembers = [
     position: "Chairman",
     image: "/committee/ahmed_benzarti.png?height=300&width=300",
     facebook: "https://www.facebook.com/ahmed.benzarti.2025",
-    email: "",
+    email: "ahmedbenzarti676@ieee.org",
     linkedin: "https://www.linkedin.com/in/ahmed-benzarti-431778395/",
   },
   {
@@ -19,7 +19,7 @@ const committeeMembers = [
     position: "Vice Chair",
     image: "/committee/ons_guidara.png?height=300&width=300",
     facebook: "https://www.facebook.com/ons.guidara.121097",
-    email: "",
+    email: "ons_g@ieee.org",
     linkedin: "https://www.linkedin.com/in/ons-guidara-3308a1219/",
   },
   {

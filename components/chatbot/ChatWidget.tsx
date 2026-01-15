@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import {
     MessageCircle,
     X,
@@ -19,6 +20,9 @@ import { Card } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
+
+// Zarga mascot GIF path
+const ZARGA_MASCOT = '/gif/zarga.gif'
 
 interface Message {
     role: 'user' | 'assistant'
@@ -48,9 +52,9 @@ export default function ChatWidget() {
         }
     }, [isOpen])
 
-    // Load history from localStorage
+    // Load history from sessionStorage (resets on each visit)
     useEffect(() => {
-        const saved = localStorage.getItem('zarga_chat_history')
+        const saved = sessionStorage.getItem('zarga_chat_history')
         if (saved) {
             try {
                 setMessages(JSON.parse(saved))
@@ -68,10 +72,10 @@ export default function ChatWidget() {
         }
     }, [])
 
-    // Save history to localStorage
+    // Save history to sessionStorage
     useEffect(() => {
         if (messages.length > 0) {
-            localStorage.setItem('zarga_chat_history', JSON.stringify(messages))
+            sessionStorage.setItem('zarga_chat_history', JSON.stringify(messages))
         }
     }, [messages])
 
@@ -125,16 +129,13 @@ export default function ChatWidget() {
     }
 
     const clearChat = () => {
-        // No confirm dialog for cleaner UX, or use custom UI. 
-        // For minimalist, we'll just clear it. But maybe keep a confirmation if needed.
-        // Let's stick to simple clear for now as per "neat".
         const welcome: Message = {
             role: 'assistant',
-            content: "Chat cleared. I'm ready for new questions!",
+            content: "Hello! I'm **Zarga**, your IEEE ISIMM SB assistant. How can I help you today?",
             timestamp: Date.now()
         }
         setMessages([welcome])
-        localStorage.setItem('zarga_chat_history', JSON.stringify([welcome]))
+        sessionStorage.setItem('zarga_chat_history', JSON.stringify([welcome]))
     }
 
     const copyToClipboard = (text: string, index: number) => {
@@ -149,8 +150,8 @@ export default function ChatWidget() {
             {(isOpen || isRendered) && (
                 <Card className={cn(
                     "w-[90vw] sm:w-[380px] h-[550px] flex flex-col shadow-2xl transition-all duration-300 ease-in-out origin-bottom-right pointer-events-auto border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
-                    isOpen 
-                        ? "opacity-100 scale-100 translate-y-0" 
+                    isOpen
+                        ? "opacity-100 scale-100 translate-y-0"
                         : "opacity-0 scale-95 translate-y-10"
                 )}>
                     {/* Header */}
@@ -167,19 +168,19 @@ export default function ChatWidget() {
                             </div>
                         </div>
                         <div className="flex items-center gap-1">
-                            <Button 
-                                variant="ghost" 
-                                size="icon" 
-                                className="h-8 w-8 text-muted-foreground hover:text-destructive transition-colors" 
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-muted-foreground hover:text-destructive transition-colors"
                                 onClick={clearChat}
                                 title="Clear chat"
                             >
                                 <Trash2 className="h-4 w-4" />
                             </Button>
-                            <Button 
-                                variant="ghost" 
-                                size="icon" 
-                                className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors" 
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-muted-foreground hover:text-foreground transition-colors"
                                 onClick={() => setIsOpen(false)}
                             >
                                 <X className="h-4 w-4" />
@@ -305,7 +306,7 @@ export default function ChatWidget() {
                             </Button>
                         </form>
                         <div className="flex justify-center mt-2">
-                             <p className="text-[10px] text-muted-foreground/60">
+                            <p className="text-[10px] text-muted-foreground/60">
                                 Powered by Zarga AI • Internal Tool
                             </p>
                         </div>
@@ -313,25 +314,36 @@ export default function ChatWidget() {
                 </Card>
             )}
 
-            {/* Toggle Button */}
-            <Button
+            {/* Toggle Button - Zarga Mascot */}
+            <button
                 onClick={() => setIsOpen(!isOpen)}
-                size="icon"
                 className={cn(
-                    "h-14 w-14 rounded-full shadow-lg transition-all duration-500 hover:scale-105 pointer-events-auto",
-                    isOpen 
-                        ? "bg-background border border-border text-foreground rotate-90 shadow-xl" 
-                        : "bg-primary text-primary-foreground hover:bg-primary/90"
+                    "relative h-16 w-16 rounded-full shadow-lg transition-all duration-500 hover:scale-110 pointer-events-auto overflow-hidden",
+                    isOpen
+                        ? "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                        : "hover:shadow-xl"
                 )}
             >
-                {isOpen ? <ChevronDown className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
-                {!isOpen && messages.length > 1 && ( // Assuming welcome message is 1
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                {isOpen ? (
+                    <div className="w-full h-full bg-background border border-border flex items-center justify-center rounded-full">
+                        <ChevronDown className="h-6 w-6 text-foreground" />
+                    </div>
+                ) : (
+                    <Image
+                        src={ZARGA_MASCOT}
+                        alt="Chat with Zarga"
+                        fill
+                        className="object-cover"
+                        unoptimized
+                    />
+                )}
+                {!isOpen && messages.length > 1 && (
+                    <span className="absolute -top-1 -right-1 flex h-5 w-5 z-10">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500 border-2 border-white"></span>
+                        <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 border-2 border-white"></span>
                     </span>
                 )}
-            </Button>
+            </button>
         </div>
     )
 }
