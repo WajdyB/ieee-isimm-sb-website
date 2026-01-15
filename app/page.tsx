@@ -120,13 +120,13 @@ const keyGoals = [
 ]
 
 const executiveMembers = [
-  { name: "Mohamed Yasser Bdioui", position: "Chairman", image: "/committee/yasser-bdioui.png?height=150&width=150" },
-  { name: "Maram Haggui", position: "Vice Chair", image: "/committee/maram-haggui.png?height=150&width=150" },
-  { name: "Firas Hamdi", position: "Secretary", image: "/committee/firas-hamdi.png?height=150&width=150" },
-  { name: "Mahdi Saadaoui", position: "Treasurer", image: "/committee/mahdi-saadaoui.png?height=150&width=150" },
-  { name: "Farah Tayari", position: "HR Manager", image: "/committee/farah-tayari.png?height=150&width=150" },
-  { name: "Mahdi Guedria", position: "Webmaster", image: "/committee/mahdi-guedria.png?height=150&width=150" },
-  { name: "May Mohsni", position: "External Relations Manager", image: "/committee/may-mohsni.png?height=150&width=150" },
+  { name: "Ahmed Benzarti", position: "Chairman", image: "/committee/ahmed_benzarti.png?height=150&width=150" },
+  { name: "Ons Guidara", position: "Vice Chair", image: "/committee/ons_guidara.png?height=150&width=150" },
+  { name: "Yasmine Bregui", position: "General Secretary", image: "/committee/yasmine_bregui.png?height=150&width=150" },
+  { name: "Mahdi Saadaoui", position: "Treasurer", image: "/committee/mahdi_saadaoui.png?height=150&width=150" },
+  { name: "Nadine Hedhli", position: "Webmaster", image: "/committee/nadine_hedhli.png?height=150&width=150" },
+  { name: "Razi Ben Khelifa", position: "Marketing Manager", image: "/committee/razi_ben_khelifa.png?height=150&width=150" },
+  { name: "Yasmine Dallegi", position: "HR Manager", image: "/committee/yasmine_dallegi.png?height=150&width=150" },
 ]
 
 const galleryImages = [

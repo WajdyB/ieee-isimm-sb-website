@@ -7,58 +7,58 @@ import { Facebook, Mail, Linkedin } from "lucide-react"
 
 const committeeMembers = [
   {
-    name: "Mohamed Yasser Bdioui",
+    name: "Ahmed Benzarti",
     position: "Chairman",
-    image: "/committee/yasser-bdioui.png?height=300&width=300",
-    facebook: "https://www.facebook.com/yasser0202",
-    email: "yasserbdioui@ieee.org ",
-    linkedin: "",
-  },
-  {
-    name: "Maram Haggui",
-    position: "Vice Chair",
-    image: "/committee/maram-haggui.png?height=300&width=300",
-    facebook: "https://www.facebook.com/maaram.haggui",
-    email: "hagguimaram6@gmail.com",
-    linkedin: "https://www.linkedin.com/in/maram-haggui-aa39292b3/",
-  },
-  {
-    name: "Firas Hamdi",
-    position: "Secretary",
-    image: "/committee/firas-hamdi.png?height=300&width=300",
-    facebook: "https://www.facebook.com/firas.hamdi.92372",
+    image: "/committee/ahmed_benzarti.png?height=300&width=300",
+    facebook: "https://www.facebook.com/ahmed.benzarti.2025",
     email: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/ahmed-benzarti-431778395/",
+  },
+  {
+    name: "Ons Guidara",
+    position: "Vice Chair",
+    image: "/committee/ons_guidara.png?height=300&width=300",
+    facebook: "https://www.facebook.com/ons.guidara.121097",
+    email: "",
+    linkedin: "https://www.linkedin.com/in/ons-guidara-3308a1219/",
+  },
+  {
+    name: "Yasmine Bregui",
+    position: "General Secretary",
+    image: "/committee/yasmine_bregui.png?height=300&width=300",
+    facebook: "https://www.facebook.com/yasmine.bregui",
+    email: "",
+    linkedin: "https://www.linkedin.com/in/yasmine-zayane-7a6bb2332/",
   },
   {
     name: "Mahdi Saadaoui",
     position: "Treasurer",
-    image: "/committee/mahdi-saadaoui.png?height=300&width=300",
+    image: "/committee/mahdi_saadaoui.png?height=300&width=300",
     facebook: "https://www.facebook.com/FAKE.MAHDI",
     email: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/saadaoui-mahdi/",
   },
   {
-    name: "Farah Tayari",
-    position: "HR Manager",
-    image: "/committee/farah-tayari.png?height=300&width=300",
-    facebook: "https://www.facebook.com/farah.tayari.7",
-    email: "",
-    linkedin: "",
-  },
-  {
-    name: "Mahdi Guedria",
+    name: "Nadine Hedhli",
     position: "Webmaster",
-    image: "/committee/mahdi-guedria.png?height=300&width=300",
-    facebook: "https://www.facebook.com/mahdi.guedria.2025",
+    image: "/committee/nadine_hedhli.png?height=300&width=300",
+    facebook: "https://www.facebook.com/nadine.hd.90",
     email: "",
     linkedin: "",
   },
   {
-    name: "May Mohsni",
-    position: "External Relations Manager",
-    image: "/committee/may-mohsni.png?height=300&width=300",
-    facebook: "https://www.facebook.com/may.mohsni.7",
+    name: "Razi Ben Khelifa",
+    position: "Marketing Manager",
+    image: "/committee/razi_ben_khelifa.png?height=300&width=300",
+    facebook: "https://www.facebook.com/razi.benkhalifa",
+    email: "",
+    linkedin: "",
+  },
+  {
+    name: "Yasmine Dallegi",
+    position: "HR Manager",
+    image: "/committee/yasmine_dallegi.png?height=300&width=300",
+    facebook: "https://www.facebook.com/yasmine.dallegi",
     email: "",
     linkedin: "",
   },
@@ -111,13 +111,13 @@ export default function CommitteePage() {
                 key={index}
                 className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-on-scroll"
               >
-                <div className="relative overflow-hidden">
+                <div className="relative overflow-hidden bg-gradient-to-b from-sky-50 to-gray-100">
                   <Image
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
                     width={300}
-                    height={300}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                    height={350}
+                    className="w-full h-80 object-contain object-top group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-sky-500/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4 flex justify-center space-x-4">
@@ -193,14 +193,14 @@ export default function CommitteePage() {
               </p>
               <div className="flex items-center justify-center">
                 <Image
-                  src="/committee/yasser-bdioui.png?height=80&width=80"
+                  src="/committee/ahmed_benzarti.png?height=80&width=80"
                   alt="Chair"
                   width={80}
                   height={80}
                   className="w-16 h-16 rounded-full object-cover mr-4"
                 />
                 <div className="text-left">
-                  <p className="font-semibold text-gray-900">Mohamed Yasser Bdioui</p>
+                  <p className="font-semibold text-gray-900">Ahmed Benzarti</p>
                   <p className="text-sky-500">Chair, IEEE ISIMM Student Branch</p>
                 </div>
               </div>
@@ -218,8 +218,8 @@ export default function CommitteePage() {
               Join our team and help us advance technology for humanity. We're always looking for passionate individuals
               to contribute to our mission and make a difference in the engineering community.
             </p>
-            <Link 
-              href="/contact" 
+            <Link
+              href="/contact"
               className="bg-white text-sky-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 inline-block"
             >
               Contact Us
