@@ -24,7 +24,7 @@ const committeeMembers = [
   },
   {
     name: "Yasmine Bregui",
-    position: "General Secretary",
+    position: "Secretary",
     image: "/committee/yasmine_bregui.png?height=300&width=300",
     facebook: "https://www.facebook.com/yasmine.bregui",
     email: "",

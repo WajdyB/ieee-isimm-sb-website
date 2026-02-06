@@ -115,7 +115,7 @@ const keyGoals = [
 const executiveMembers = [
   { name: "Ahmed Benzarti", position: "Chairman", image: "/committee/ahmed_benzarti.png?height=150&width=150" },
   { name: "Ons Guidara", position: "Vice Chair", image: "/committee/ons_guidara.png?height=150&width=150" },
-  { name: "Yasmine Bregui", position: "General Secretary", image: "/committee/yasmine_bregui.png?height=150&width=150" },
+  { name: "Yasmine Bregui", position: "Secretary", image: "/committee/yasmine_bregui.png?height=150&width=150" },
   { name: "Mahdi Saadaoui", position: "Treasurer", image: "/committee/mahdi_saadaoui.png?height=150&width=150" },
   { name: "Nadine Hedhli", position: "Webmaster", image: "/committee/nadine_hedhli.png?height=150&width=150" },
   { name: "Razi Ben Khelifa", position: "Marketing Manager", image: "/committee/razi_ben_khelifa.png?height=150&width=150" },
