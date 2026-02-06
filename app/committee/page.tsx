@@ -88,13 +88,13 @@ export default function CommitteePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-sky-50 to-white py-20">
+      <section className="bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
               Executive <span className="text-sky-500">Committee</span>
             </h1>
-            <p className="text-xl text-gray-600 leading-relaxed">
+            <p className="text-xl text-muted-foreground leading-relaxed">
               Meet the dedicated leaders driving our mission forward and fostering innovation in the engineering
               community
             </p>
@@ -103,15 +103,15 @@ export default function CommitteePage() {
       </section>
 
       {/* Committee Members */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {committeeMembers.map((member, index) => (
               <div
                 key={index}
-                className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-on-scroll"
+                className="bg-card rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 animate-on-scroll"
               >
-                <div className="relative overflow-hidden bg-gradient-to-b from-sky-50 to-gray-100">
+                <div className="relative overflow-hidden bg-gradient-to-b from-sky-50 to-popover">
                   <Image
                     src={member.image || "/placeholder.svg"}
                     alt={member.name}
@@ -124,20 +124,20 @@ export default function CommitteePage() {
                       <Link
                         href={member.facebook}
                         target="_blank"
-                        className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors duration-200"
+                        className="bg-card/20 backdrop-blur-sm p-2 rounded-full hover:bg-card/30 transition-colors duration-200"
                       >
                         <Facebook className="h-5 w-5 text-white" />
                       </Link>
                       <Link
                         href={`mailto:${member.email}`}
-                        className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors duration-200"
+                        className="bg-card/20 backdrop-blur-sm p-2 rounded-full hover:bg-card/30 transition-colors duration-200"
                       >
                         <Mail className="h-5 w-5 text-white" />
                       </Link>
                       <Link
                         href={member.linkedin}
                         target="_blank"
-                        className="bg-white/20 backdrop-blur-sm p-2 rounded-full hover:bg-white/30 transition-colors duration-200"
+                        className="bg-card/20 backdrop-blur-sm p-2 rounded-full hover:bg-card/30 transition-colors duration-200"
                       >
                         <Linkedin className="h-5 w-5 text-white" />
                       </Link>
@@ -145,7 +145,7 @@ export default function CommitteePage() {
                   </div>
                 </div>
                 <div className="p-6 text-center">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-sky-500 transition-colors duration-200">
+                  <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-sky-500 transition-colors duration-200">
                     <Link href={member.facebook} target="_blank">
                       {member.name}
                     </Link>
@@ -155,20 +155,20 @@ export default function CommitteePage() {
                     <Link
                       href={member.facebook}
                       target="_blank"
-                      className="text-gray-400 hover:text-sky-500 transition-colors duration-200"
+                      className="text-muted-foreground hover:text-sky-500 transition-colors duration-200"
                     >
                       <Facebook className="h-5 w-5" />
                     </Link>
                     <Link
                       href={`mailto:${member.email}`}
-                      className="text-gray-400 hover:text-sky-500 transition-colors duration-200"
+                      className="text-muted-foreground hover:text-sky-500 transition-colors duration-200"
                     >
                       <Mail className="h-5 w-5" />
                     </Link>
                     <Link
                       href={member.linkedin}
                       target="_blank"
-                      className="text-gray-400 hover:text-sky-500 transition-colors duration-200"
+                      className="text-muted-foreground hover:text-sky-500 transition-colors duration-200"
                     >
                       <Linkedin className="h-5 w-5" />
                     </Link>
@@ -181,12 +181,12 @@ export default function CommitteePage() {
       </section>
 
       {/* Leadership Message */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Leadership Message</h2>
-            <div className="bg-white p-8 rounded-xl shadow-lg">
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed italic">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Leadership Message</h2>
+            <div className="bg-card p-8 rounded-xl shadow-lg">
+              <p className="text-lg text-muted-foreground mb-6 leading-relaxed italic">
                 "Our executive committee is committed to creating an environment where every student can thrive and
                 contribute to advancing technology for humanity. We believe that through collaboration, innovation, and
                 dedication, we can make a meaningful impact in our community and beyond."
@@ -200,7 +200,7 @@ export default function CommitteePage() {
                   className="w-16 h-16 rounded-full object-cover mr-4"
                 />
                 <div className="text-left">
-                  <p className="font-semibold text-gray-900">Ahmed Benzarti</p>
+                  <p className="font-semibold text-foreground">Ahmed Benzarti</p>
                   <p className="text-sky-500">Chair, IEEE ISIMM Student Branch</p>
                 </div>
               </div>
@@ -220,7 +220,7 @@ export default function CommitteePage() {
             </p>
             <Link
               href="/contact"
-              className="bg-white text-sky-500 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 inline-block"
+              className="bg-card text-sky-500 px-8 py-3 rounded-lg font-semibold hover:bg-card/95 transition-colors duration-200 inline-block"
             >
               Contact Us
             </Link>

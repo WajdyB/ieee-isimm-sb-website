@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { Calendar, MapPin, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Event } from "@/types/event"
@@ -85,10 +86,10 @@ export default function EventsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading events...</p>
+          <p className="text-muted-foreground">Loading events...</p>
         </div>
       </div>
     )
@@ -97,7 +98,7 @@ export default function EventsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-sky-50 to-white py-20">
+      <section className="bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -111,15 +112,15 @@ export default function EventsPage() {
       </section>
 
       {/* Events Grid */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           {events.length === 0 ? (
             <div className="text-center py-16">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Calendar className="h-12 w-12 text-gray-400" />
+              <div className="w-24 h-24 bg-popover rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Calendar className="h-12 w-12 text-muted-foreground" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">No Events Yet</h3>
-              <p className="text-gray-600 max-w-md mx-auto">
+                <h3 className="text-2xl font-semibold text-foreground mb-4">No Events Yet</h3>
+                <p className="text-muted-foreground max-w-md mx-auto">
                 We haven't added any events yet. Check back soon for upcoming events and activities!
               </p>
             </div>
@@ -128,10 +129,10 @@ export default function EventsPage() {
               {events.map((event) => (
                 <div
                   key={event._id}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
+                  className="bg-card rounded-xl shadow-lg overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer"
                   onClick={() => openLightbox(event)}
                 >
-                  <div className="relative overflow-hidden bg-gray-50">
+                  <div className="relative overflow-hidden bg-popover">
                     <Image
                       src={event.images && event.images.length > 0 ? event.images[0] : "/placeholder.svg"}
                       alt={event.title}
@@ -142,17 +143,17 @@ export default function EventsPage() {
                     />
                     <div className="absolute inset-0 bg-sky-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     {event.images && event.images.length > 0 && (
-                      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full">
+                      <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm px-3 py-1 rounded-full">
                         <span className="text-sm font-medium text-sky-500">{event.images.length} photos</span>
                       </div>
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-sky-500 transition-colors duration-200">
+                    <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-sky-500 transition-colors duration-200">
                       {event.title}
                     </h3>
-                    <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
-                    <div className="space-y-2 text-sm text-gray-500">
+                    <p className="text-muted-foreground mb-4 line-clamp-2">{event.description}</p>
+                    <div className="space-y-2 text-sm text-muted-foreground">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 mr-2 text-sky-500" />
                         {formatDate(event.date)}
@@ -177,7 +178,7 @@ export default function EventsPage() {
       {/* Lightbox Modal */}
       {selectedEvent && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
-          <div className="relative max-w-4xl w-full max-h-[90vh] bg-white rounded-xl overflow-hidden">
+          <div className="relative max-w-4xl w-full max-h-[90vh] bg-card rounded-xl overflow-hidden">
             {/* Close Button */}
             <button
               onClick={closeLightbox}
@@ -205,7 +206,7 @@ export default function EventsPage() {
             )}
 
             {/* Main Image */}
-            <div className="relative bg-gray-50 flex items-center justify-center min-h-96">
+            <div className="relative bg-popover flex items-center justify-center min-h-96">
               <Image
                 src={selectedEvent.images && selectedEvent.images.length > 0 
                   ? selectedEvent.images[currentImageIndex] 
@@ -220,8 +221,8 @@ export default function EventsPage() {
 
             {/* Event Details */}
             <div className="p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">{selectedEvent.title}</h2>
-              <p className="text-gray-600 mb-4">{selectedEvent.description}</p>
+              <h2 className="text-2xl font-bold text-foreground mb-3">{selectedEvent.title}</h2>
+              <p className="text-muted-foreground mb-4">{selectedEvent.description}</p>
               <div className="grid md:grid-cols-3 gap-4 text-sm">
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-2 text-sky-500" />
@@ -249,12 +250,12 @@ export default function EventsPage() {
                           index === currentImageIndex ? "border-sky-500" : "border-transparent"
                         }`}
                       >
-                        <Image
+                          <Image
                           src={image}
                           alt={`${selectedEvent.title} ${index + 1}`}
                           width={64}
                           height={64}
-                          className="w-full h-full object-contain bg-gray-100"
+                          className="w-full h-full object-contain bg-popover"
                           unoptimized={image.startsWith('data:')}
                         />
                       </button>
@@ -271,13 +272,14 @@ export default function EventsPage() {
       <section className="py-20 bg-gradient-to-r from-sky-500 to-sky-600 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Stay Updated</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Keep Track Through Our Social Media</h2>
             <p className="text-xl mb-8 opacity-90 leading-relaxed">
-              Don't miss out on our upcoming events and activities. Follow us on social media and join our mailing list
-              for the latest updates.
+              Stay connected and never miss an event! Follow us on Facebook for real-time updates, photos, and announcements about upcoming activities.
             </p>
-            <Button size="lg" variant="secondary">
-              Subscribe to Updates
+            <Button asChild size="lg" variant="secondary">
+              <Link href="https://www.facebook.com/IEEEISIMMSB" target="_blank" rel="noopener noreferrer">
+                Follow Us on Facebook
+              </Link>
             </Button>
           </div>
         </div>

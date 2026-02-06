@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react"
+import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Github } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -11,7 +11,7 @@ export default function Footer() {
           {/* About Section */}
           <div className="col-span-2">
             <h3 className="text-xl font-bold mb-4">IEEE ISIMM Student Branch</h3>
-            <p className="text-gray-300 mb-4 leading-relaxed">
+            <p className="text-muted-foreground mb-4 leading-relaxed">
               Advancing technology for humanity through innovation, collaboration, and professional development among
               engineering students.
             </p>
@@ -45,47 +45,47 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/about" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/committee" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/committee" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Executive Committee
                 </Link>
               </li>
               <li>
-                <Link href="/subunits" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/subunits" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Chapters & Affinity Groups
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/events" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Events
                 </Link>
               </li>
               <li>
-                <Link href="/timeline" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/timeline" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Timeline
                 </Link>
               </li>
               <li>
-                <Link href="/awards" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/awards" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Awards
                 </Link>
               </li>
               <li>
-                <Link href="/testimonials" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/testimonials" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Testimonials
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-300 hover:text-sky-400 transition-colors duration-200">
+                <Link href="/contact" className="text-muted-foreground hover:text-sky-400 transition-colors duration-200">
                   Contact
                 </Link>
               </li>
@@ -98,15 +98,15 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center">
                 <Mail className="h-4 w-4 mr-2 text-sky-400" />
-                <span className="text-gray-300 text-sm">contact@ieee-isimm.org</span>
+                <span className="text-muted-foreground text-sm">sb-isimm@ieee.org</span>
               </div>
               <div className="flex items-center">
                 <Phone className="h-4 w-4 mr-2 text-sky-400" />
-                <span className="text-gray-300 text-sm">+216 XX XXX XXX</span>
+                <span className="text-muted-foreground text-sm">+216 94 660 522</span>
               </div>
               <div className="flex items-start">
                 <MapPin className="h-4 w-4 mr-2 text-sky-400 mt-0.5" />
-                <span className="text-gray-300 text-sm">ISIMM Campus, Monastir, Tunisia</span>
+                <span className="text-muted-foreground text-sm">ISIMM Campus, Monastir, Tunisia</span>
               </div>
             </div>
           </div>
@@ -114,9 +114,20 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} IEEE ISIMM Student Branch. All rights reserved.
-          </p>
+          <div className="flex items-center justify-center gap-3">
+            <p className="text-muted-foreground text-sm">
+              © {new Date().getFullYear()} IEEE ISIMM Student Branch. All rights reserved.
+            </p>
+            <Link
+              href="https://github.com/WajdyB"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sky-400 hover:text-sky-300 transition-colors duration-200 inline-flex"
+              aria-label="Developer GitHub Profile"
+            >
+              <Github className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

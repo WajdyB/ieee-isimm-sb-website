@@ -4,14 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowRight, Users, Calendar, Globe, Target, Lightbulb, ChevronLeft, ChevronRight, X } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
+import { ArrowRight, Users, Calendar, Globe, Target, Lightbulb } from "lucide-react"
 import { Event } from "@/types/event"
 
 const subunitData = [
@@ -25,13 +18,13 @@ const subunitData = [
     gradient: "from-orange-500 to-orange-600"
   },
   {
-    name: "IEEE CIS ISIMM",
-    subtitle: "COMPUTATIONAL INTELLIGENCE SOCIETY CHAPTER",
-    logo: "/subunits_logos/logo-cis.png?height=60&width=120&text=PES",
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
-    borderColor: "border-blue-200",
-    gradient: "from-blue-500 to-blue-600"
+    name: "IEEE SIGHT ISIMM",
+    subtitle: "SPECIAL INTEREST GROUP ON HUMANITARIAN TECHNOLOGIES",
+    logo: "/subunits_logos/logo-sight.png?height=60&width=120&text=RAS",
+    color: "text-red-600",
+    bgColor: "bg-red-50",
+    borderColor: "border-red-200",
+    gradient: "from-red-500 to-red-600"
   },
   {
     name: "IEEE WIE ISIMM",
@@ -43,15 +36,6 @@ const subunitData = [
     gradient: "from-purple-400 to-purple-500"
   },
   {
-    name: "IEEE RAS ISIMM",
-    subtitle: "ROBOTICS AND AUTOMATION SOCIETY CHAPTER",
-    logo: "/subunits_logos/logo-ras.png?height=60&width=120&text=WIE",
-    color: "text-purple-800",
-    bgColor: "bg-purple-50",
-    borderColor: "border-purple-200",
-    gradient: "from-purple-700 to-purple-800"
-  },
-  {
     name: "IEEE IAS/PES ISIMM",
     subtitle: "INDUSTRIAL APPLICATIONS AND POWER ENGINEERING SOCIETY JOINT CHAPTER",
     logo: "/subunits_logos/logo-ias-pes.png?height=60&width=120&text=CS",
@@ -59,6 +43,15 @@ const subunitData = [
     bgColor: "bg-green-50",
     borderColor: "border-green-200",
     gradient: "from-green-500 to-green-600"
+  },
+  {
+    name: "IEEE RAS ISIMM",
+    subtitle: "ROBOTICS AND AUTOMATION SOCIETY CHAPTER",
+    logo: "/subunits_logos/logo-ras.png?height=60&width=120&text=WIE",
+    color: "text-purple-800",
+    bgColor: "bg-purple-50",
+    borderColor: "border-purple-200",
+    gradient: "from-purple-700 to-purple-800"
   },
   {
     name: "IEEE EMBS ISIMM",
@@ -70,13 +63,13 @@ const subunitData = [
     gradient: "from-purple-500 to-purple-600"
   },
   {
-    name: "IEEE SIGHT ISIMM",
-    subtitle: "SPECIAL INTEREST GROUP ON HUMANITARIAN TECHNOLOGIES",
-    logo: "/subunits_logos/logo-sight.png?height=60&width=120&text=RAS",
-    color: "text-red-600",
-    bgColor: "bg-red-50",
-    borderColor: "border-red-200",
-    gradient: "from-red-500 to-red-600"
+    name: "IEEE CIS ISIMM",
+    subtitle: "COMPUTATIONAL INTELLIGENCE SOCIETY CHAPTER",
+    logo: "/subunits_logos/logo-cis.png?height=60&width=120&text=PES",
+    color: "text-blue-600",
+    bgColor: "bg-blue-50",
+    borderColor: "border-blue-200",
+    gradient: "from-blue-500 to-blue-600"
   }
 ]
 
@@ -129,25 +122,10 @@ const executiveMembers = [
   { name: "Yasmine Dallegi", position: "HR Manager", image: "/committee/yasmine_dallegi.png?height=150&width=150" },
 ]
 
-const galleryImages = [
-  { id: 1, src: "/gallery-home/1.JPG?height=300&width=400&text=Gallery+1", alt: "Gallery 1" },
-  { id: 2, src: "/gallery-home/2.jpg?height=300&width=400&text=Gallery+2", alt: "Gallery 2" },
-  { id: 3, src: "/gallery-home/3.jpg?height=300&width=400&text=Gallery+3", alt: "Gallery 3" },
-  { id: 4, src: "/gallery-home/4.jpg?height=300&width=400&text=Gallery+4", alt: "Gallery 4" },
-  { id: 5, src: "/gallery-home/5.jpg?height=300&width=400&text=Gallery+5", alt: "Gallery 5" },
-  { id: 6, src: "/gallery-home/6.jpg?height=300&width=400&text=Gallery+6", alt: "Gallery 6" },
-  { id: 7, src: "/gallery-home/7.jpg?height=300&width=400&text=Gallery+7", alt: "Gallery 7" },
-  { id: 8, src: "/gallery-home/8.jpg?height=300&width=400&text=Gallery+8", alt: "Gallery 8" },
-]
-
 export default function HomePage() {
   const observerRef = useRef<IntersectionObserver | null>(null)
-  const galleryRef = useRef<HTMLDivElement>(null)
   const excomRef = useRef<HTMLDivElement>(null)
-  const [isGalleryHovered, setIsGalleryHovered] = useState(false)
   const [isExcomHovered, setIsExcomHovered] = useState(false)
-  const [selectedGoal, setSelectedGoal] = useState<typeof keyGoals[0] | null>(null)
-  const [isGoalModalOpen, setIsGoalModalOpen] = useState(false)
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -166,35 +144,6 @@ export default function HomePage() {
 
     return () => observerRef.current?.disconnect()
   }, [])
-
-  // Auto-scroll animation for gallery
-  useEffect(() => {
-    if (!galleryRef.current) return
-
-    const galleryContainer = galleryRef.current
-    let animationId: number
-    let scrollPosition = 0
-    const scrollSpeed = 1 // pixels per frame
-
-    const animateGallery = () => {
-      if (!isGalleryHovered && galleryContainer) {
-        scrollPosition += scrollSpeed
-        if (scrollPosition >= galleryContainer.scrollWidth - galleryContainer.clientWidth) {
-          scrollPosition = 0
-        }
-        galleryContainer.scrollLeft = scrollPosition
-      }
-      animationId = requestAnimationFrame(animateGallery)
-    }
-
-    animationId = requestAnimationFrame(animateGallery)
-
-    return () => {
-      if (animationId) {
-        cancelAnimationFrame(animationId)
-      }
-    }
-  }, [isGalleryHovered])
 
   // Auto-scroll animation for executive committee
   useEffect(() => {
@@ -225,12 +174,6 @@ export default function HomePage() {
     }
   }, [isExcomHovered])
 
-  const openGoalModal = (goal: typeof keyGoals[0]) => {
-    console.log('Opening modal for goal:', goal.title)
-    setSelectedGoal(goal)
-    setIsGoalModalOpen(true)
-  }
-
   return (
     <div className="min-h-screen">
       {/* Hero Section - Original Design */}
@@ -238,10 +181,10 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="animate-slide-in-left">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
                 Advancing <span className="text-sky-500">Technology</span> for Humanity
               </h1>
-              <p className="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 leading-relaxed">
                 The IEEE ISIMM Student Branch is a vibrant community of engineering students working together to advance
                 technology for humanity. Through events, workshops, and collaboration, we foster professional and
                 technical development for future innovators who will shape tomorrow's world.
@@ -274,16 +217,16 @@ export default function HomePage() {
       </section>
       
       {/* Facebook Video Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               <span className="text-sky-500">OUR STORY</span>
             </h2>
-            <h3 className="text-2xl font-semibold text-gray-700 mb-8">
+            <h3 className="text-2xl font-semibold text-muted-foreground mb-8">
               Discover IEEE ISIMM Student Branch's Mission & Goals
             </h3>
-            <p className="text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
               Watch our comprehensive video showcasing the mission, goals, and achievements of IEEE ISIMM Student Branch. 
               Learn about our commitment to advancing technology for humanity and fostering professional development.
             </p>
@@ -313,7 +256,7 @@ export default function HomePage() {
             </div>
             
             <div className="mt-8 text-center">
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm text-muted-foreground mb-4">
                 Can't see the video? 
                 <a 
                   href="https://www.facebook.com/ieeeisimmsb/" 
@@ -330,14 +273,14 @@ export default function HomePage() {
       </section>
       
       {/* Redesigned Chapters & Affinity Groups Section */}
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16 animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               <span className="text-sky-500">CHAPTERS & AFFINITY GROUPS</span>
             </h2>
-            <h3 className="text-2xl font-semibold text-gray-700">Our Diverse Technical Communities</h3>
-            <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+            <h3 className="text-2xl font-semibold text-muted-foreground">Our Diverse Technical Communities</h3>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
               Discover our specialized chapters and affinity groups, each dedicated to advancing specific areas of technology and engineering.
             </p>
           </div>
@@ -346,7 +289,7 @@ export default function HomePage() {
             {subunitData.map((subunit, index) => (
               <div 
                 key={index} 
-                className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden"
+                className="group relative bg-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 overflow-hidden"
               >
                 {/* Gradient overlay on hover */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${subunit.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
@@ -357,7 +300,7 @@ export default function HomePage() {
                     <h3 className={`font-bold text-lg ${subunit.color} mb-2 group-hover:scale-105 transition-transform duration-300`}>
                       {subunit.name}
                     </h3>
-                    <p className="text-sm text-gray-600 font-medium leading-relaxed">
+                    <p className="text-sm text-muted-foreground font-medium leading-relaxed">
                       {subunit.subtitle}
                     </p>
                   </div>
@@ -382,7 +325,7 @@ export default function HomePage() {
           
           {/* Call to action */}
           <div className="text-center mt-16 animate-on-scroll">
-            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
               Ready to join one of our specialized communities? Each chapter offers unique opportunities for learning, networking, and professional development.
             </p>
             <Button asChild className="bg-sky-500 hover:bg-sky-600">
@@ -394,71 +337,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Auto-scrolling Gallery Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              <span className="text-sky-500">GALLERY</span>
-            </h2>
-            <h3 className="text-2xl font-semibold text-gray-700">6 years of glory and unforgettable memories!</h3>
-          </div>
-          
-          <div 
-            className="relative"
-            onMouseEnter={() => setIsGalleryHovered(true)}
-            onMouseLeave={() => setIsGalleryHovered(false)}
-          >
-            {/* Auto-scrolling Gallery Container */}
-            <div 
-              ref={galleryRef}
-              className="flex gap-6 overflow-x-auto scrollbar-hide"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              {/* Duplicate images for seamless loop */}
-              {[...galleryImages, ...galleryImages].map((image, index) => (
-                <div key={`${image.id}-${index}`} className="flex-shrink-0 w-80 group/item">
-                  <div className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      width={320}
-                      height={240}
-                      className="w-full h-60 object-cover group-hover/item:scale-110 transition-transform duration-300"
-                    />
-
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Hover indicator */}
-            {isGalleryHovered && (
-              <div className="absolute top-4 right-4 bg-sky-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                Paused
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* IEEE Community Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               <span className="text-sky-500">IEEE COMMUNITY</span>
             </h2>
-            <h3 className="text-2xl font-semibold text-gray-700">Connecting with the Global IEEE Network</h3>
+            <h3 className="text-2xl font-semibold text-foreground">Connecting with the Global IEEE Network</h3>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-sky-50 rounded-xl p-8 animate-on-scroll">
+            <div className="bg-popover rounded-xl p-8 animate-on-scroll">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-sky-500 rounded-lg flex items-center justify-center mr-4">
                     <Users className="w-6 h-6 text-white" />
                   </div>
-                  <h4 className="text-xl font-bold text-gray-900">IEEE Tunisia Section</h4>
+                  <h4 className="text-xl font-bold text-foreground">IEEE Tunisia Section</h4>
                 </div>
                 <div className="flex-shrink-0">
                   <Image
@@ -470,7 +365,7 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 IEEE Tunisia Section represents the broader IEEE community in Tunisia, connecting professionals, researchers, 
                 and students across the country. Our student branch collaborates closely with the Tunisia Section to advance 
                 technology and engineering excellence in our region.
@@ -481,13 +376,13 @@ export default function HomePage() {
                 </Link>
               </Button>
             </div>
-            <div className="bg-sky-50 rounded-xl p-8 animate-on-scroll">
+            <div className="bg-popover rounded-xl p-8 animate-on-scroll">
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-sky-500 rounded-lg flex items-center justify-center mr-4">
                     <Globe className="w-6 h-6 text-white" />
                   </div>
-                  <h4 className="text-xl font-bold text-gray-900">IEEE Global</h4>
+                  <h4 className="text-xl font-bold text-foreground">IEEE Global</h4>
                 </div>
                 <div className="flex-shrink-0">
                   <Image
@@ -499,7 +394,7 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed">
                 IEEE is the world's largest technical professional organization dedicated to advancing technology for the 
                 benefit of humanity. With over 400,000 members in 160 countries, IEEE provides access to cutting-edge 
                 research, professional development, and global networking opportunities.
@@ -515,36 +410,30 @@ export default function HomePage() {
       </section>
 
       {/* Key Goals Section with Interactive Modals */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               <span className="text-sky-500">IEEE ISIMM SB GOALS</span>
             </h2>
-            <h3 className="text-2xl font-semibold text-gray-700">Four Key Goals & Objectives</h3>
+            <h3 className="text-2xl font-semibold text-foreground">Four Key Goals & Objectives</h3>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {keyGoals.map((goal, index) => {
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 animate-on-scroll cursor-pointer transform hover:-translate-y-2"
-                  onClick={() => openGoalModal(goal)}
+                  className="bg-card rounded-xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 animate-on-scroll transform hover:-translate-y-2"
                 >
                   <div className="w-16 h-16 rounded-lg bg-sky-100 flex items-center justify-center mx-auto mb-6">
                     <goal.icon className="w-8 h-8 text-sky-500" />
                   </div>
-                  <h4 className="text-lg font-bold mb-4 text-gray-900">
+                  <h4 className="text-lg font-bold mb-4 text-foreground">
                     {goal.title}
                   </h4>
-                  <p className="leading-relaxed text-sm text-gray-600">
+                  <p className="leading-relaxed text-sm text-muted-foreground">
                     {goal.description}
                   </p>
-                  <div className="mt-4">
-                    <span className="text-xs font-medium text-sky-500">
-                      Click to learn more →
-                    </span>
-                  </div>
                 </div>
               )
             })}
@@ -552,67 +441,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Goal Details Modal */}
-      <Dialog open={isGoalModalOpen} onOpenChange={setIsGoalModalOpen}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-          {selectedGoal && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-sky-100 rounded-lg flex items-center justify-center">
-                    <selectedGoal.icon className="w-6 h-6 text-sky-500" />
-                  </div>
-                  <span className="text-xl font-bold">{selectedGoal.title}</span>
-                </DialogTitle>
-                <DialogDescription className="text-lg text-gray-600 mt-4 leading-relaxed">
-                  {selectedGoal.detailedDescription}
-                </DialogDescription>
-              </DialogHeader>
-              
-              <div className="space-y-6 mt-6">
-                {/* Activities Section */}
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3 text-lg">Key Activities</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {selectedGoal.activities.map((activity, index) => (
-                      <div key={index} className="flex items-center gap-3 text-sm">
-                        <div className="w-2 h-2 bg-sky-500 rounded-full flex-shrink-0"></div>
-                        <span className="text-gray-700">{activity}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Benefits Section */}
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3 text-lg">Student Benefits</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {selectedGoal.benefits.map((benefit, index) => (
-                      <div key={index} className="flex items-center gap-3 text-sm">
-                        <div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
-                        <span className="text-gray-700">{benefit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Call to Action */}
-                <div className="bg-sky-50 rounded-lg p-6">
-                  <p className="text-sm text-gray-600 mb-4">
-                    Ready to get involved in our <strong>{selectedGoal.title.toLowerCase()}</strong> initiatives?
-                  </p>
-                  <Button className="bg-sky-500 hover:bg-sky-600 w-full">
-                    Join Our Programs
-                  </Button>
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-
       {/* Auto-scrolling Executive Committee Preview */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-on-scroll">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -634,23 +464,23 @@ export default function HomePage() {
             >
               {/* Duplicate members for seamless loop */}
               {[...executiveMembers, ...executiveMembers].map((member, index) => (
-                <div key={`${member.name}-${index}`} className="flex-shrink-0 text-center group/item">
-                  <div className="relative mb-4">
-                    <div className="relative w-32 h-32 rounded-full overflow-hidden mx-auto shadow-lg">
+                <div key={`${member.name}-${index}`} className="flex-shrink-0 w-72 md:w-80 text-center group/item">
+                  <div className="relative mb-6">
+                    <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden mx-auto shadow-xl ring-4 ring-sky-50 transition-all duration-300 group-hover/item:ring-sky-200">
                       <Image
                         src={member.image || "/placeholder.svg"}
                         alt={member.name}
-                        width={150}
-                        height={150}
-                        className="w-full h-full object-cover group-hover/item:scale-105 transition-transform duration-300"
+                        width={400}
+                        height={400}
+                        className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-sky-500/20 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-sky-500/10 opacity-0 group-hover/item:opacity-100 transition-opacity duration-300"></div>
                     </div>
                   </div>
-                  <h4 className="font-bold text-gray-900 group-hover/item:text-sky-600 transition-colors duration-200">
+                  <h4 className="text-xl font-bold text-foreground group-hover/item:text-sky-600 transition-colors duration-200">
                     {member.name}
                   </h4>
-                  <p className="text-sky-600 text-sm">{member.position}</p>
+                  <p className="text-sky-600 font-medium">{member.position}</p>
                 </div>
               ))}
             </div>
@@ -674,13 +504,13 @@ export default function HomePage() {
       </section>
 
       {/* Recent Events Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 animate-on-scroll">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               <span className="text-sky-500">RECENT EVENTS</span>
             </h2>
-            <h3 className="text-2xl font-semibold text-gray-700">Latest Activities & Achievements</h3>
+            <h3 className="text-2xl font-semibold text-muted-foreground">Latest Activities & Achievements</h3>
           </div>
           
           <RecentEvents />
@@ -688,10 +518,10 @@ export default function HomePage() {
       </section>
 
       {/* Join Us Section */}
-      <section className="py-20 bg-sky-50">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center animate-on-scroll">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               <span className="text-sky-500">JOIN US!</span>
             </h2>
             <h3 className="text-2xl font-semibold text-gray-700 mb-8">
@@ -726,7 +556,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-lg">
+            <div className="bg-card rounded-xl p-8 shadow-lg">
               <ul className="text-left space-y-3 mb-8">
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-sky-500 rounded-full mr-3"></div>
@@ -752,7 +582,11 @@ export default function HomePage() {
                 </li>
               </ul>
 
-              <Button className="bg-sky-500 hover:bg-sky-600">Register now to IEEE ISIMM SB</Button>
+              <Button asChild className="bg-sky-500 hover:bg-sky-600">
+                <Link href="https://docs.google.com/forms/d/e/1FAIpQLSf0m5l1VVyXbZ0R96UV5C53vz1mc8G80nxB8v_T32lfT93qDQ/viewform" target="_blank" rel="noopener noreferrer">
+                  Register now to IEEE ISIMM SB
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -813,13 +647,13 @@ function RecentEvents() {
 
   return (
     <div>
-      <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8">
         {events.map((event) => (
           <div
             key={event._id}
-            className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
+            className="bg-card rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300"
           >
-            <div className="relative overflow-hidden bg-gray-50">
+            <div className="relative overflow-hidden bg-popover">
               <Image
                 src={event.images && event.images.length > 0 ? event.images[0] : "/placeholder.svg"}
                 alt={event.title}

@@ -80,7 +80,7 @@ Message: ${formData.message}
       `
       
       // Send email using mailto link (fallback method)
-      const mailtoLink = `mailto:contact@ieee-isimm.org?subject=${encodeURIComponent(`Contact Form: ${formData.subject}`)}&body=${encodeURIComponent(emailContent)}`
+      const mailtoLink = `mailto:sb-isimm@ieee.org?subject=${encodeURIComponent(`Contact Form: ${formData.subject}`)}&body=${encodeURIComponent(emailContent)}`
       
       // Open default email client
       window.open(mailtoLink)
@@ -128,7 +128,7 @@ Message: ${formData.message}
                 <Phone className="h-8 w-8 text-sky-500" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Call Us</h3>
-              <p className="text-sky-600 font-medium">+216 ** *** ***</p>
+              <p className="text-sky-600 font-medium">+216 94 660 522</p>
             </div>
 
             <div className="text-center group">
@@ -136,7 +136,7 @@ Message: ${formData.message}
                 <Mail className="h-8 w-8 text-sky-500" />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Email Us</h3>
-              <p className="text-sky-600 font-medium">contact@ieee-isimm.org</p>
+              <p className="text-sky-600 font-medium">sb-isimm@ieee.org</p>
             </div>
 
             <div className="text-center group">
@@ -279,7 +279,7 @@ Message: ${formData.message}
                     </div>
                     <div className="flex items-center">
                       <Phone className="w-5 h-5 text-sky-500 mr-3" />
-                      <span className="text-gray-700">+216 70 011 920</span>
+                      <span className="text-gray-700">+216 94 660 522</span>
                     </div>
                   </div>
                 </div>

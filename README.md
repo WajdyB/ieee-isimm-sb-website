@@ -1,21 +1,34 @@
 # IEEE ISIMM Student Branch Website
 
-A modern, responsive website for the IEEE ISIMM Student Branch with dynamic event management, AI-powered chatbot assistant, and comprehensive content management capabilities.
+A modern, feature-rich website for the IEEE ISIMM Student Branch featuring dynamic event management, AI-powered chatbot assistant, interactive UI/UX elements, and comprehensive content showcasing 7 technical chapters and affinity groups.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?logo=tailwind-css)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb)
 
+## ✨ Highlights
+
+- 🎭 **Redesigned UI/UX**: Floating polaroid gallery, journey map timeline, dialogue-style testimonials
+- 🤖 **AI Chatbot "Zarga"**: RAG-powered assistant with 30+ IEEE knowledge entries
+- 📱 **Fully Responsive**: Mobile-first design with smooth animations and transitions
+- 🎯 **7 Technical Chapters**: CS, CIS, WIE, IAS/PES, RAS, EMBS, SIGHT with dedicated pages
+- 📧 **Contact Integration**: Forms send to sb-isimm@ieee.org with Google Maps location
+- 🔐 **Secure Admin Panel**: JWT-authenticated dashboard for event management
+- 🖼️ **Dynamic Events**: MongoDB-backed events with GridFS image storage
+
 ## 🚀 Features
 
 ### Core Features
-- **Dynamic Event Management**: Admin dashboard for creating, managing, and deleting events
+- **Dynamic Event Management**: Admin dashboard for creating, managing, and deleting events with MongoDB persistence
 - **Image Upload**: Support for multiple image uploads per event with GridFS storage
-- **MongoDB Integration**: Persistent data storage with MongoDB Atlas
-- **Authentication**: Secure admin login with JWT tokens
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Modern UI**: Beautiful, accessible interface with smooth animations
+- **Modern UI/UX**: Redesigned pages with floating cards, polaroid galleries, journey maps, and dialogue-style layouts
+- **Interactive Animations**: Scroll-triggered animations, hover effects, auto-scrolling carousels, and smooth transitions
+- **Unified Recruitment**: All CTA buttons link to centralized Google recruitment form
+- **Responsive Design**: Mobile-first approach with Tailwind CSS, optimized for all screen sizes
+- **Contact Integration**: Forms send to official email (sb-isimm@ieee.org) with phone contact (+216 94 660 522)
+- **Social Media Links**: Direct integration with Facebook, Instagram, LinkedIn, and chapter websites
+- **Authentication**: Secure admin login with JWT tokens and bcrypt password hashing
 
 ### 🤖 AI Chatbot - "Zarga"
 - **Knowledge-First Responses**: Answers questions using a local IEEE knowledge base (30+ entries)
@@ -26,17 +39,26 @@ A modern, responsive website for the IEEE ISIMM Student Branch with dynamic even
 - **Markdown Support**: Rich formatted responses with source citations
 - **Rate Limiting**: Built-in protection against API abuse
 
+### 🎨 UI/UX Enhancements
+- **Floating Polaroid Gallery**: 24 event photos with random rotations, staggered heights, and hover effects on About page
+- **Journey Map Timeline**: Interactive milestone nodes with scroll-triggered animations and progress tracking
+- **Floating Award Cards**: Dynamic picture cards with gradient overlays and zoom effects
+- **Dialogue-Style Testimonials**: Speech bubble design alternating left/right for 6 former chairmen
+- **Auto-Scrolling Executive Committee**: Horizontal carousel with hover-to-pause functionality
+- **Coherent Design System**: Consistent color palette (sky blue & gray), typography, and spacing across all pages
+- **Navigation Enhancements**: Clickable logos in header (home & IEEE Tunisia Section links)
+
 ### Pages
-- **Home**: Hero section, chapters overview, gallery, goals, executive committee, recent events
-- **About**: Mission, vision, values, photo gallery
-- **Events**: Dynamic events listing with lightbox gallery
-- **Committee**: Executive committee members with social links
-- **Subunits**: Technical chapters and affinity groups
-- **Awards**: IEEE awards and recognition
-- **Timeline**: Historical milestones and achievements
-- **Testimonials**: Former chairs' experiences
-- **Contact**: Contact form with Google Maps integration
-- **Admin Dashboard**: Event management interface
+- **Home**: Hero section with embedded video, chapters & affinity groups showcase, IEEE community links, goals overview, executive committee auto-scroll, and recent events
+- **About**: "WHO ARE WE" hero, mission & vision, core values, floating polaroid gallery (24 event photos with dynamic hover effects)
+- **Events**: Dynamic events listing with lightbox gallery and social media integration
+- **Committee**: Executive committee members with detailed profiles and social links
+- **Subunits**: 7 technical chapters and affinity groups with reordered display and recruitment links
+- **Awards**: Floating picture cards showcasing IEEE awards and achievements with hover effects
+- **Timeline**: Interactive journey map UI with milestone nodes, scroll animations, and progress tracking
+- **Testimonials**: Dialogue-style layout featuring 6 former chairmen with speech bubble design
+- **Contact**: Contact form (sends to sb-isimm@ieee.org), Google Maps integration, and FAQ section
+- **Admin Dashboard**: Secure event management interface with image upload
 
 ## 🛠️ Technology Stack
 
@@ -149,7 +171,7 @@ ieee-isimm-sb-website/
 │   └── utils.ts               # General utilities
 ├── public/                    # Static assets
 │   ├── committee/             # Committee member photos
-│   ├── gallery-home/          # Homepage gallery images
+│   ├── gallery-about/         # About page gallery images (24 photos)
 │   ├── logos/                 # Logo assets
 │   └── ...                    # Other static files
 ├── types/                     # TypeScript type definitions
@@ -235,17 +257,30 @@ User Query → Rate Limiter → KB Search → LLM (Gemini) → Response
 
 ## 🎨 Customization
 
+### Design Philosophy
+The website follows a **modern, professional IEEE aesthetic** with:
+- **Primary Color**: Sky blue (`#0ea5e9`) for IEEE branding
+- **Secondary Colors**: Gray tones for balance and coherence
+- **Typography**: Clear, readable fonts with consistent sizing
+- **Spacing**: Generous padding and margins for breathability
+- **Animations**: Subtle, purposeful transitions that enhance UX
+
 ### Colors
-The website uses IEEE sky blue (`#0ea5e9`) as the primary color. Customize in:
+The website uses IEEE sky blue (`#0ea5e9`) as the primary color with gray accents. Customize in:
 - `tailwind.config.ts` - Tailwind configuration
-- `app/globals.css` - CSS custom properties
+- `app/globals.css` - CSS custom properties and animation keyframes
 
 ### Content
-- **Events**: Manage through admin dashboard
-- **Committee Members**: Edit `app/page.tsx` and `app/committee/page.tsx`
-- **Knowledge Base**: Edit `data/ieee_knowledge_tn.json`
-- **Static Content**: Edit directly in respective page files
-- **Images**: Place in `public/` directory
+- **Events**: Manage through admin dashboard at `/admin`
+- **Committee Members**: Edit `executiveMembers` array in `app/page.tsx` and detailed profiles in `app/committee/page.tsx`
+- **Subunits**: Edit `subunitData` array in `app/page.tsx` and detailed info in `app/subunits/page.tsx`
+- **Timeline Milestones**: Edit `milestones` array in `app/timeline/page.tsx`
+- **Awards**: Edit `awards` array in `app/awards/page.tsx`
+- **Testimonials**: Edit `testimonials` array in `app/testimonials/page.tsx`
+- **Knowledge Base**: Edit `data/ieee_knowledge_tn.json` for chatbot responses
+- **Gallery Images**: Place event photos in `public/gallery-about/` directory
+- **Contact Info**: Update in `components/footer.tsx`, `app/contact/page.tsx` (currently: sb-isimm@ieee.org, +216 94 660 522)
+- **Recruitment Form**: Update Google Form link across all CTA buttons
 
 ### Admin Dashboard
 Access at `/admin` to:
@@ -315,9 +350,16 @@ This project is licensed under the MIT License.
 ## 🆘 Support
 
 For support or questions:
-- Create an issue in the repository
-- Contact the IEEE ISIMM SB development team
-- Check the [CHATBOT_SETUP.md](./CHATBOT_SETUP.md) for chatbot-specific help
+- **Email**: sb-isimm@ieee.org
+- **Phone**: +216 94 660 522
+- **GitHub**: Create an issue in the repository
+- **Website**: Use the contact form at `/contact`
+- **Chatbot Help**: Check [CHATBOT_SETUP.md](./CHATBOT_SETUP.md) for chatbot-specific setup
+
+### Official Links
+- **Facebook**: [IEEE ISIMM SB](https://www.facebook.com/IEEEISIMMSB)
+- **IEEE Tunisia Section**: [ieee.tn](https://www.ieee.tn)
+- **Location**: ISIMM Campus, Monastir, Tunisia
 
 ---
 

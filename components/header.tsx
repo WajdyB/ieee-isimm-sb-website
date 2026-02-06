@@ -27,13 +27,15 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Image
-              src="/logos/logo-isimm-sb.png?height=60&width=150"
-              alt="IEEE ISIMM Logo"
-              width={180}
-              height={75}
-              className="h-16 w-auto"
-            />
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/logos/logo-isimm-sb.png?height=60&width=150"
+                alt="IEEE ISIMM Logo"
+                width={180}
+                height={75}
+                className="h-16 w-auto cursor-pointer hover:opacity-90 transition-opacity"
+              />
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -52,13 +54,15 @@ const Header = () => {
 
           {/* IEEE Tunisia Section Logo */}
           <div className="hidden md:flex items-center">
-            <Image
-              src="/logos/tunisia_section_logo.png?height=60&width=150"
-              alt="IEEE Tunisia Section"
-              width={180}
-              height={75}
-              className="h-16 w-auto"
-            />
+            <Link href="https://www.ieee.tn" target="_blank" rel="noopener noreferrer" className="flex items-center">
+              <Image
+                src="/logos/tunisia_section_logo.png?height=60&width=150"
+                alt="IEEE Tunisia Section"
+                width={180}
+                height={75}
+                className="h-16 w-auto cursor-pointer hover:opacity-90 transition-opacity"
+              />
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -83,13 +87,15 @@ const Header = () => {
               ))}
             </div>
             <div className="flex justify-center mt-4 pt-4 border-t border-sky-100">
-              <Image
-                src="/logos/tunisia_section_logo.png?height=50&width=120"
-                alt="IEEE Tunisia Section"
-                width={120}
-                height={50}
-                className="h-14 w-auto"
-              />
+              <Link href="https://www.ieee.tn" target="_blank" rel="noopener noreferrer" className="flex items-center">
+                <Image
+                  src="/logos/tunisia_section_logo.png?height=50&width=120"
+                  alt="IEEE Tunisia Section"
+                  width={120}
+                  height={50}
+                  className="h-14 w-auto cursor-pointer hover:opacity-90 transition-opacity"
+                />
+              </Link>
             </div>
           </nav>
         )}
