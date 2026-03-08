@@ -20,7 +20,7 @@ const subunits = [
       facebook: "https://www.facebook.com/ieee.cs.isimm",
       linkedin: "",
       instagram: "https://www.instagram.com/ieee.cs.isimm/?hl=fr",
-      website: "https://ieee-isimm-cs-website.vercel.app/",
+      website: "https://cs-isimm.ieee.tn/",
     },
   },
   {
@@ -71,7 +71,7 @@ const subunits = [
       facebook: "https://www.facebook.com/IEEEWIEISIMMSA",
       linkedin: "",
       instagram: "https://www.instagram.com/ieee_wie_isimm_sag/?hl=fr",
-      website: "https://ieee-isimm-wie-website.vercel.app/",
+      website: "https://wie-isimm.ieee.tn/",
     },
   },
   {
@@ -88,7 +88,7 @@ const subunits = [
       facebook: "https://www.facebook.com/profile.php?id=100091680498696",
       linkedin: "",
       instagram: "https://www.instagram.com/ieee.sight.isimm/?hl=fr",
-      website: "https://ieee-isimm-sight-website.vercel.app/",
+      website: "https://sight-isimm.ieee.tn/",
     },
   },
   {
